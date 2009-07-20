@@ -1,13 +1,11 @@
 SYNTAX     = EditorService
-SOURCE     = ../org.strategoxt.imp.metatooling/src/syntax/$(SYNTAX).def
-PPAF       = ../org.strategoxt.imp.metatooling/src/syntax/$(SYNTAX)-pretty.pp.af
-CTREE      = ../org.strategoxt.imp.metatooling/src/include/sdf2imp.ctree
+SOURCE     = ../org.strategoxt.imp.generator/src/syntax/$(SYNTAX).def
+PPAF       = ../org.strategoxt.imp.generator/src/syntax/$(SYNTAX)-pretty.pp.af
 
-SDF2IMP    = ../org.strategoxt.imp.metatooling/sdf2imp
+SDF2IMP    = ../org.strategoxt.imp.generator/sdf2imp
 ESVS       = ${wildcard src/*.esv}
 
-all : editor/include/$(SYNTAX).packed.esv $(CTREE) editor/include/rtg.tbl editor/include/EditorService-pretty.pp.af
-	cp $(CTREE) editor/include
+all : editor/include/$(SYNTAX).packed.esv editor/include/rtg.tbl editor/include/EditorService-pretty.pp.af
 
 clean :
 	rm -f src/parser/$(SYNTAX)ParseController.java bin/$(SYNTAX).packed.esv
