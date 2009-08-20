@@ -13,7 +13,8 @@ clean :
 	# ...
 
 include/$(SYNTAX).packed.esv : $(SYNTAX).def include/$(SYNTAX).tbl $(SDF2IMP) Makefile $(ESVS)
-	$(SDF2IMP) -i $< -p $(SYNTAX).tbl -m $(SYNTAX) --verbose 2
+	$(SDF2IMP) -i $< -p $(SYNTAX).tbl -pn org.strategoxt.imp.editors.editorservice -m $(SYNTAX) --verbose 2
+	rm build.xml ".externalToolBuilders/Ant Builder.launch"
 
 $(SYNTAX).def : $(SOURCE)
 	ln -s $< $@
