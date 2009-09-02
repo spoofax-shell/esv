@@ -15,7 +15,7 @@ clean :
 
 include/$(SYNTAX).packed.esv : $(SYNTAX).def $(SDF2IMP) Makefile $(ESVS)
 	$(SDF2IMP) -i $< -pn org.strategoxt.imp.editors.editorservice -m $(SYNTAX) --verbose 2
-	rm build.xml ".externalToolBuilders/Ant Builder.launch"
+	rm -f build.xml .externalToolBuilders/*.launch # not used for this project
 
 # We need a better solution for this
 include/EditorService-pretty.pp.af : $(PPAF)
