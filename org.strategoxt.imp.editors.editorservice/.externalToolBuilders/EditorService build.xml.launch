@@ -22,12 +22,7 @@
 <mapAttribute key="org.eclipse.ui.externaltools.ATTR_ANT_PROPERTIES">
 <mapEntry key="eclipse.running" value="true"/>
 <mapEntry key="externaldef" value="${workspace_loc:/org.strategoxt.imp.generator}/src/syntax/EditorService.def"/>
-<mapEntry key="eclipse.pdebuild.templates" value="/home/lk/opt/eclipse-3.4.2/plugins/org.eclipse.pde.build_3.4.1.R34x_v20081217/templates/"/>
-<mapEntry key="eclipse.home" value="/home/lk/opt/eclipse-3.4.2"/>
-<mapEntry key="eclipse.pdebuild.scripts" value="/home/lk/opt/eclipse-3.4.2/plugins/org.eclipse.pde.build_3.4.1.R34x_v20081217/scripts/"/>
-<mapEntry key="eclipse.pdebuild.home" value="/home/lk/opt/eclipse-3.4.2/plugins/org.eclipse.pde.build_3.4.1.R34x_v20081217/./"/>
 </mapAttribute>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_ANT_TARGETS" value="from-eclipse,"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${project}"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/org.strategoxt.imp.editors.editorservice/build.xml}"/>
 <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
