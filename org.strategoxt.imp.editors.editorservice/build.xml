@@ -93,7 +93,8 @@
         </target>
     
         <target name="make-permissive.helper" unless="permissive-grammar.available" depends="aux-files">
-            <java classname="org.strategoxt.permissivegrammars.make_permissive" classpath="aux/make_permissive.jar:aux/strategoxt.jar" failonerror="true">
+            <java classname="org.strategoxt.permissivegrammars.make_permissive" classpath="aux/make_permissive.jar:aux/strategoxt.jar" failonerror="true" fork="true">
+                <jvmarg line="-ss4m -server"/>
                 <arg value="-i"/>
                 <arg value="${basedir}/include/${sdfmodule}.def"/>
                 <arg value="-o"/>
