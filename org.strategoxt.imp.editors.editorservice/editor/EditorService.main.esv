@@ -1,10 +1,9 @@
 module EditorService.main
 
 imports
-  EditorService-Analysis
+  EditorService-Builders
   EditorService-Colorer
   EditorService-Folding
-  EditorService-Occurrences
   EditorService-Outliner
   EditorService-References
   EditorService-Syntax
