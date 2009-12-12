@@ -1,0 +1,6 @@
+module editorservice
+
+// TODO: warn about multi-char highlighted brackets
+// TODO: check if provider/imported/etc. files exist
+// TODO: check if there is _any_ provider for observer etc.
+// TODO: check if the provider is not a .str
