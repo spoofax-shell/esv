@@ -20,9 +20,6 @@ completions
     "completion trigger" ":\n\t" "regex"
   
   completion template:
-    prefix "i" 
-  
-  completion template:
   	"observer" ": " "s"
   
   completion template:
