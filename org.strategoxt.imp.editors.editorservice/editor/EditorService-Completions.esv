@@ -41,4 +41,10 @@ completions
   	"indent after" ":\n\t" "keyword"
   
   completion template:
-  	"identifier lexical" ": " "regex"
+  	"reference" " _ : " "s"
+  
+  completion template:
+    "occrurrence" " _ : " "s"
+  
+  completion template:
+    "hover" " _ : " "s"
