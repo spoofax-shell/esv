@@ -44,7 +44,7 @@ completions
   	"reference" " _ : " "s"
   
   completion template:
-    "occrurrence" " _ : " "s"
+    "occurrence" " _ : " "s"
   
   completion template:
     "hover" " _ : " "s"
