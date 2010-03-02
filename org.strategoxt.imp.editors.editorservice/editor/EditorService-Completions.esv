@@ -1,0 +1,47 @@
+module EditorService-Completions
+
+imports EditorService-Completions.generated
+
+completions
+  
+  completion template:
+    "completion template" ":\n\t" "prefix" " \"c\""
+  
+  completion template:
+    "completion lexical" ":\n\t" "regex"
+  
+  completion template:
+    "completion proposer" ":\n\t" "s"
+  
+  completion template:
+    "completion keyword" ":\n\t" "k"
+  
+  completion template:
+    "completion trigger" ":\n\t" "regex"
+  
+  completion template:
+    prefix "i" 
+  
+  completion template:
+  	"observer" ": " "s"
+  
+  completion template:
+  	"builder" ": \"caption\" = " "s"
+  
+  completion template:
+  	"unmanaged table" ": " "prefix" "*"
+  
+  completion template:
+  	"line comment" ": " "prefix"
+  
+  completion template:
+  	"block comment" ":\n\t" "prefix" " " "middle" " " "end"
+  
+  completion template:
+  	"fences" ":\n\t" "f" " " "g"
+ 
+  completion template:
+  	"indent after" ":\n\t" "keyword"
+  
+  completion template:
+  	"identifier lexical" ": " "regex"

@@ -3,7 +3,11 @@ module EditorService-Syntax
 language Syntax properties
                   
   line comment  : "//"
+  
   block comment : "/*" * "*/"
+
+  indent after:
+    ":" "=" ","
+    
   fences        :
-    // No fences
-    // (e.g., [  ] (  ) {  } |[ ]| <? ?>)
+    ( ) // (just for annotations)
