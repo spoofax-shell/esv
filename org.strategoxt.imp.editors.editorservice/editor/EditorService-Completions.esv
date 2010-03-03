@@ -5,46 +5,46 @@ imports EditorService-Completions.generated
 completions
   
   completion template:
-    "completion template" ":\n\t" "prefix" " \"c\""
+    "completion template" ":\n\t" <prefix> " \"c\"" (blank)
   
   completion template:
-    "completion lexical" ":\n\t" "regex"
+    "completion lexical" ":\n\t" <regex> (blank)
   
   completion template:
-    "completion proposer" ":\n\t" "s"
+    "completion proposer" ":\n\t" <s> (blank)
   
   completion template:
-    "completion keyword" ":\n\t" "k"
+    "completion keyword" ":\n\t" <k> (blank)
   
   completion template:
-    "completion trigger" ":\n\t" "regex"
+    "completion trigger" ":\n\t" <regex> (blank)
+    
+  completion template:
+  	"observer" ": " <s> (blank)
   
   completion template:
-  	"observer" ": " "s"
+  	"builder" ": " <"caption"> " = " <s> (blank)
   
   completion template:
-  	"builder" ": \"caption\" = " "s"
+  	"unmanaged table" ": " <prefix> "*" (blank)
   
   completion template:
-  	"unmanaged table" ": " "prefix" "*"
+  	"line comment" ": " <prefix> (blank)
   
   completion template:
-  	"line comment" ": " "prefix"
+  	"block comment" ":\n\t" <prefix> " " <middle> " " <end> (blank)
   
   completion template:
-  	"block comment" ":\n\t" "prefix" " " "middle" " " "end"
-  
-  completion template:
-  	"fences" ":\n\t" "f" " " "g"
+  	"fences" ":\n\t" <f> " " <g> (blank)
  
   completion template:
-  	"indent after" ":\n\t" "keyword"
+  	"indent after" ":\n\t" <keyword> (blank)
   
   completion template:
-  	"reference" " _ : " "s"
+  	"reference" " _ : " <s> (blank)
   
   completion template:
-    "occurrence" " _ : " "s"
+    "occurrence" " _ : " <s> (blank)
   
   completion template:
-    "hover" " _ : " "s"
+    "hover" " _ : " <s> (blank)
