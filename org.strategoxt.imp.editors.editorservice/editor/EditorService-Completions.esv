@@ -48,3 +48,6 @@ completions
   
   completion template:
     "hover" " _ : " <s> (blank)
+
+  completion template:
+    "on save" ": " <s> (blank)
