@@ -26,6 +26,9 @@ completions
   	"builder" ": " <"caption"> " = " <s> (blank)
   
   completion template:
+    "builder" "caption: " <"caption"> (blank)
+  
+  completion template:
   	"unmanaged table" ": " <prefix> "*" (blank)
   
   completion template:
