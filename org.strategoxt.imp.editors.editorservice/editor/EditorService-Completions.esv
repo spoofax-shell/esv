@@ -3,6 +3,12 @@ module EditorService-Completions
 imports EditorService-Completions.generated
 
 completions
+
+  completion proposer:
+    editor-complete
+
+  completion trigger:
+    "(completion\s*template|start\s*symbols)\s*:\s+"
   
   completion template:
     "completion template" ":\n\t" <prefix> " \"c\"" (blank)
@@ -22,11 +28,14 @@ completions
   completion template:
   	"observer" ": " <s> (blank)
   
+  completion template : BuilderRule =
+    "provider" ": " <provider.jar> (blank)
+  
   completion template:
   	"builder" ": " <"caption"> " = " <s> (blank)
   
   completion template:
-    "builder" "caption: " <"caption"> (blank)
+    "builder caption" ": " <"caption"> (blank)
   
   completion template:
   	"unmanaged table" ": " <prefix> "*" (blank)

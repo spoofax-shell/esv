@@ -4,3 +4,63 @@ module editorservice
 // TODO: check if provider/imported/etc. files exist
 // TODO: check if there is _any_ provider for observer etc.
 // TODO: check if the provider is not a .str
+
+imports
+  libstratego-lib
+  libstratego-sglr
+  libstratego-sdf
+  lib/editor-common.generated
+  include/EditorService
+
+rules
+  
+  editor-analyze:
+    (ast, path, project-path) -> (error*, warning*, [])
+    with
+      <chdir> project-path;
+      <record-all-sdfs> ".";
+      error*   := [];
+      warning* := []
+  
+  generate-aterm:
+    (selected, position, ast, path, project-path) -> (filename, selected)
+    where
+      filename  := <guarantee-extension(|"aterm")> path
+
+  editor-complete:
+    (Sort(x), position, ast, path, project-path) -> proposals
+    where
+      proposals := <all-keys-SortDeclaration>
+
+  editor-complete:
+    (CompletionTemplate(COMPLETION(_), _, _), position, ast, path, project-path) -> proposals
+    where
+      proposals := <map(<conc-strings> (<id>, " = "))> <all-keys-SortDeclaration>
+  
+  record-all-sdfs =
+    <readdir> ".";
+    list-loop(
+      if <isdir> <filemode> then
+        chdir;
+        record-all-sdfs;
+        <chdir> ".."
+      else
+        try(record-sdf)
+      end
+    )
+  
+  record-sdf:
+    filename -> filename
+    where
+      <has-extension(|"sdf")> filename;
+      <open-import(abspath, parse-sdf-module-file, topdown(try(record-prod)))> filename
+   
+  record-prod:
+    prod @ prod(lhs, sort, attrs) -> <id>
+    where
+      !sort;
+      try(?cf(<id>) + ?lex(<id>));
+      repeat(?label(_, <id>));
+      (?sort(x) + ?parameterized-sort(x, _))
+    with
+      rules(SortDeclaration: x -> x)

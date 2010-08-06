@@ -3,10 +3,14 @@ module EditorService-Builders
 imports
   EditorService-Builders.generated
 
-analysis
+builders
   
+  provider : include/editorservice.jar
 
-
+  observer : editor-analyze
+  
+  builder : "Show abstract syntax (for selection" =
+    generate-aterm (openeditor) (realtime) (meta) 
 
 // This file can be used for custom analysis rules.
 

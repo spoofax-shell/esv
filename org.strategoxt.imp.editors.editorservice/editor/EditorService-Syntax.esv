@@ -10,4 +10,4 @@ language Syntax properties
     ":" "=" ","
     
   fences        :
-    ( ) // (just for annotations)
+    ( ) < > // annotations and placeholders
