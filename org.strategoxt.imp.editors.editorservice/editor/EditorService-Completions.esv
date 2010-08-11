@@ -8,58 +8,82 @@ completions
     editor-complete
 
   completion trigger:
-    "(completion\s*template|start\s*symbols)\s*:\s+"
+    "(completion\s*template|start\s*symbols)\s*:(\s+|\n)"
+
+  completion trigger:
+    "(completion\s*template|start\s*symbols)\s*:\s*[^\s]+\s*=\s+"
   
-  completion template:
+  completion template : Section =
+    "builders" "\n\t" (blank)
+  
+  completion template : Section =
+    "colorer" "\n\t" (blank)
+  
+  completion template : Section =
+    "folding" "\n\t" (blank)
+  
+  completion template : Section =
+    "outliner" "\n\t" (blank)
+  
+  completion template : Section =
+    "completions" "\n\t" (blank)
+  
+  completion template : Section =
+    "language" "\n\t" (blank)
+  
+  completion template : Section =
+    "references" "\n\t" (blank)
+  
+  completion template : SemanticRule =
     "completion template" ":\n\t" <prefix> " \"c\"" (blank)
   
-  completion template:
+  completion template : SemanticRule =
     "completion lexical" ":\n\t" <regex> (blank)
   
-  completion template:
+  completion template : SemanticRule =
     "completion proposer" ":\n\t" <s> (blank)
   
-  completion template:
+  completion template : SemanticRule =
     "completion keyword" ":\n\t" <k> (blank)
   
-  completion template:
+  completion template : SemanticRule =
     "completion trigger" ":\n\t" <regex> (blank)
     
-  completion template:
+  completion template : SemanticRule =
   	"observer" ": " <s> (blank)
   
-  completion template : BuilderRule =
+  completion template : SemanticRule =
     "provider" ": " <provider.jar> (blank)
   
-  completion template:
+  completion template : SemanticRule =
   	"builder" ": " <"caption"> " = " <s> (blank)
   
-  completion template:
+  completion template : SemanticRule =
     "builder caption" ": " <"caption"> (blank)
   
-  completion template:
+  completion template : LanguageProperty = 
   	"unmanaged table" ": " <prefix> "*" (blank)
   
-  completion template:
+  completion template : LanguageProperty =
   	"line comment" ": " <prefix> (blank)
   
-  completion template:
+  completion template : LanguageProperty = 
   	"block comment" ":\n\t" <prefix> " " <middle> " " <end> (blank)
   
-  completion template:
+  completion template : LanguageProperty = 
   	"fences" ":\n\t" <f> " " <g> (blank)
  
-  completion template:
+  completion template : LanguageProperty = 
   	"indent after" ":\n\t" <keyword> (blank)
   
-  completion template:
+  completion template : SemanticRule = 
   	"reference" " _ : " <s> (blank)
   
-  completion template:
+  completion template : SemanticRule = 
     "occurrence" " _ : " <s> (blank)
   
-  completion template:
+  completion template : SemanticRule = 
     "hover" " _ : " <s> (blank)
 
-  completion template:
+  completion template : SemanticRule = 
     "on save" ": " <s> (blank)

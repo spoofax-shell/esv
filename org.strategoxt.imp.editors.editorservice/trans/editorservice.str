@@ -3,7 +3,6 @@ module editorservice
 // TODO: warn about multi-char highlighted brackets
 // TODO: check if provider/imported/etc. files exist
 // TODO: check if there is _any_ provider for observer etc.
-// TODO: check if the provider is not a .str
 
 imports
   libstratego-lib
@@ -19,7 +18,7 @@ rules
     with
       <chdir> project-path;
       <record-all-sdfs> ".";
-      error*   := [];
+      error*   := <collect-all(constraint-error, conc)> ast;
       warning* := []
   
   generate-aterm:
@@ -33,7 +32,24 @@ rules
       proposals := <all-keys-SortDeclaration>
 
   editor-complete:
-    (CompletionTemplate(COMPLETION(_), _, _), position, ast, path, project-path) -> proposals
+    (CompletionTemplate(COMPLETION(_), parts, _), position, ast, path, project-path) -> proposals
+    where
+      if [] := parts then
+        suffix := " =\n\t\t"
+      else
+        suffix := " = "
+      end;
+      proposals := <map(<conc-strings> (<id>, suffix))> <all-keys-SortDeclaration>
+
+  editor-complete:
+    (CompletionTemplateWithSort(Sort(sort), COMPLETION(_), _, _), position, ast, path, project-path) -> proposals
+    where
+      lhs*      := <bagof-SortProductionLHS> sort;
+      lhs'*     := <topdown(repeat(remove-completion-irrelevant))> lhs*;
+      proposals := <make-set> <filter(to-completion-parts-top)> lhs'*
+
+  editor-complete:
+    (Sort(COMPLETION(_)), position, ast, path, project-path) -> proposals
     where
       proposals := <map(<conc-strings> (<id>, " = "))> <all-keys-SortDeclaration>
   
@@ -54,6 +70,12 @@ rules
     where
       <has-extension(|"sdf")> filename;
       <open-import(abspath, parse-sdf-module-file, topdown(try(record-prod)))> filename
+  
+  record-sdf:
+    filename -> filename
+    where
+      <has-extension(|"def")> filename;
+      <open-import(abspath, parse-sdf-definition-file, topdown(try(record-prod)))> filename
    
   record-prod:
     prod @ prod(lhs, sort, attrs) -> <id>
@@ -63,4 +85,65 @@ rules
       repeat(?label(_, <id>));
       (?sort(x) + ?parameterized-sort(x, _))
     with
-      rules(SortDeclaration: x -> x)
+      rules(
+        SortDeclaration   :  x -> x
+        SortProductionLHS :+ x -> lhs
+      )
+  
+  to-completion-parts:
+    [lit(x) | tail] -> ["\"", lits', "\" " | tail']
+    where
+      lits  := <map(?lit(<id>))> <take-while(?lit(_))>;
+      lits' := <escape> <concat-strings> <separate-by(|" ")> lits;
+      tail' := <to-completion-parts> <drop-while(?lit(_))> tail
+  
+  to-completion-parts-top:
+    [lit(first) | tail] -> $[[trigger'] [rest']]
+    where
+      trigger  := [lit(first) | <take-while(?lit(<is-alpha>))> tail];
+      trigger' := <to-completion-parts> trigger;
+      rest     := <drop-while(?lit(<is-alpha>))> tail;
+      rest'    := <to-completion-parts> <separate-by(|lit(" "))> rest
+  
+  to-completion-parts:
+    [sort(x) | tail] -> ["<", x, "> " | <to-completion-parts> tail]
+  
+  to-completion-parts:
+    [iter-star(sort(x)) | tail] -> ["<", x, "*> " | <to-completion-parts> tail]
+  
+  to-completion-parts:
+    [iter-star-sep(sort(x), _) | tail] -> ["<", x, "*> " | <to-completion-parts> tail]
+  
+  to-completion-parts:
+    [iter(sort(x)) | tail] -> ["<", x, "*> " | <to-completion-parts> tail]
+  
+  to-completion-parts:
+    [iter-sep(sort(x), _) | tail] -> ["<", x, "*> " | <to-completion-parts> tail]
+  
+  to-completion-parts:
+    [opt(sort(x)) | tail] -> ["<", x, "> " | <to-completion-parts> tail]
+  
+  to-completion-parts:
+    [] -> []
+  
+  remove-completion-irrelevant:
+    parameterized-sort(x, _) -> sort(x)
+  
+  remove-completion-irrelevant:
+    cf(x) -> x
+  
+  remove-completion-irrelevant:
+    lex(x) -> x
+  
+  remove-completion-irrelevant:
+    opt(layout()) -> lit(" ")
+  
+  constraint-error:
+    Sort(x) -> (x, $[Unknown sort [x]])
+    where
+      not(<SortDeclaration> x)
+  
+  constraint-error:
+    SemanticProvider(x) -> (x, $[Must be a generated .ctree or .jar file])
+    where
+      not(<string-ends-with(|".jar") + string-ends-with(|".ctree")> x)
