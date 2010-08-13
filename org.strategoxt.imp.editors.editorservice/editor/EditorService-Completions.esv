@@ -13,6 +13,12 @@ completions
   completion trigger:
     "(completion\s*template|start\s*symbols)\s*:\s*[^\s]+\s*=\s+"
   
+  completion template : Module =
+    "module " <Module> 
+  
+  completion template : Section =
+    "imports" "\n\t" (blank)
+  
   completion template : Section =
     "builders" "\n\t" (blank)
   
@@ -35,7 +41,7 @@ completions
     "references" "\n\t" (blank)
   
   completion template : SemanticRule =
-    "completion template" ":\n\t" <prefix> " \"c\"" (blank)
+    "completion template" " : " <Sort> " =\n\t" <"prefix"> " " <"completion"> (blank)
   
   completion template : SemanticRule =
     "completion lexical" ":\n\t" <regex> (blank)
@@ -75,6 +81,27 @@ completions
  
   completion template : LanguageProperty = 
   	"indent after" ":\n\t" <keyword> (blank)
+ 
+  completion template : LanguageProperty = 
+    "name" ":\n\t" <Name> (blank)
+ 
+  completion template : LanguageProperty = 
+    "url" ":\n\thttp://" <url> (blank)
+ 
+  completion template : LanguageProperty = 
+    "id" ":\n\t" <id> (blank)
+ 
+  completion template : LanguageProperty = 
+    "extends" ":\n\t" <Language> (blank)
+ 
+  completion template : LanguageProperty = 
+    "extensions" ":\n\t" <ext> (blank)
+ 
+  completion template : LanguageProperty = 
+    "start symbols" ":\n\t" <Start> (blank)
+ 
+  completion template : LanguageProperty = 
+    "description" ":\n\t" <description> (blank)
   
   completion template : SemanticRule = 
   	"reference" " _ : " <s> (blank)
