@@ -102,6 +102,12 @@ completions
  
   completion template : LanguageProperty = 
     "description" ":\n\t" <description> (blank)
+ 
+  completion template : LanguageProperty = 
+    "table" ":\n\t" <table> (blank)
+ 
+  completion template : LanguageProperty = 
+    "table provider" ":\n\t" <provider> (blank)
   
   completion template : SemanticRule = 
   	"reference" " _ : " <s> (blank)
