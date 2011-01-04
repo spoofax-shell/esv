@@ -19,7 +19,7 @@ rules
       <chdir> project-path;
       <record-all-sdfs> ".";
       error*   := <collect-all(constraint-error, conc)> ast;
-      warning* := []
+      warning* := <warnings-refactoring> ast
   
   generate-aterm:
     (selected, position, ast, path, project-path) -> (filename, selected)
@@ -147,3 +147,45 @@ rules
     SemanticProvider(x) -> (x, $[Must be a generated .ctree or .jar file])
     where
       not(<string-ends-with(|".jar") + string-ends-with(|".ctree")> x)
+
+  warnings-refactoring=
+  	?ast;
+  	wrns-pp-unspecified:=<warning-pptable-unspecified> ast;
+  	wrns-src-property:=<collect-all(warning-source-property-missing)> ast;
+  	wrns-unused-annotation:=<collect-all(warning-unused-anno); flatten-list> ast;
+  	<concat>[wrns-pp-unspecified, wrns-src-property, wrns-unused-annotation]
+  
+  warning-unused-anno=
+    ?Refactoring(_, _, _, annos);
+    <filter(
+    	?OpenEditor()<+
+    	?Persistent()<+
+    	?RealTime())
+    > annos;
+    map(!(<id>, $[the '[<origin-text>]' annotation is not used for refactorings]))
+    
+  warning-pptable-unspecified=
+    if not(oncetd(?PPTable(_))) then
+  	  collect-all(
+  	  	warning-pp-table-missing
+  	  ) 		
+    else
+      ![]
+    end
+  	
+  warning-pp-table-missing=
+    ?refactoring@Refactoring(_, _, _, _); 
+    !(
+       refactoring, 
+       $["pp-table : 'stratego-call'" is missing, 
+       as a result the source code reconstruction may fail]
+     )
+
+  warning-source-property-missing=
+    ?refactoring@Refactoring(_, _, _, props);
+    <not(fetch(?Source()))> props; 
+    !(
+       refactoring, 
+       $["Layout deviations will occur for desugared constructs, (source) annotation is recommended"]
+     )
+  	
