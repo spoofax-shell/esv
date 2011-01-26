@@ -44,7 +44,7 @@ completions
     "completion template" " : " <Sort> " =\n\t" <"prefix"> " " <"completion"> (blank)
   
   completion template : SemanticRule =
-    "completion lexical" ":\n\t" <regex> (blank)
+    "identifier lexical" ":\n\t" <regex> (blank)
   
   completion template : SemanticRule =
     "completion proposer" ":\n\t" <s> (blank)
