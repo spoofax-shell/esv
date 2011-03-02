@@ -19,7 +19,7 @@ rules
       <chdir> project-path;
       <record-all-sdfs> ".";
       error*   := <collect-all(constraint-error, conc)> ast;
-      warning* := <warnings-refactoring> ast
+      warning* := <conc> (<collect-all(constraint-warning, conc)> ast, <warnings-refactoring> ast)
   
   generate-aterm:
     (selected, position, ast, path, project-path) -> (filename, selected)
@@ -148,6 +148,9 @@ rules
     where
       not(<string-ends-with(|".jar") + string-ends-with(|".ctree")> x)
 
+  constraint-warning:
+    CompletionTrigger(".", _) -> $[Trigger is a regular expression that matches any character. Use \. instead]
+  
   warnings-refactoring=
   	?ast;
   	wrns-pp-unspecified:=<warning-pptable-unspecified> ast;
