@@ -101,6 +101,9 @@ completions
     "start symbols" ":\n\t" <Start> (blank)
  
   completion template : LanguageProperty = 
+    "disambiguator" ":\n\t" <s> (blank)
+ 
+  completion template : LanguageProperty = 
     "description" ":\n\t" <description> (blank)
  
   completion template : LanguageProperty = 
