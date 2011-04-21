@@ -12,114 +12,114 @@ completions
 
   completion trigger:
     "(completion\s*template|start\s*symbols)\s*:\s*[^\s]+\s*=\s+"
-  
+
   completion template : Module =
-    "module " <Module> 
-  
+    "module " <Module>
+
   completion template : Section =
     "imports" "\n\t" (blank)
-  
+
   completion template : Section =
     "builders" "\n\t" (blank)
-  
+
   completion template : Section =
     "colorer" "\n\t" (blank)
-  
+
   completion template : Section =
     "folding" "\n\t" (blank)
-  
+
   completion template : Section =
     "outliner" "\n\t" (blank)
-  
+
   completion template : Section =
     "completions" "\n\t" (blank)
-  
+
   completion template : Section =
     "language" "\n\t" (blank)
-  
+
   completion template : Section =
     "references" "\n\t" (blank)
-  
+
   completion template : SemanticRule =
-    "completion template" " : " <Sort> " =\n\t" <"prefix"> " " <"completion"> (blank)
-  
+    "completion template" " " <Sort> " :\n\t" <"prefix"> " " <"completion"> (blank)
+
   completion template : SemanticRule =
     "identifier lexical" ":\n\t" <regex> (blank)
-  
+
   completion template : SemanticRule =
     "completion proposer" ":\n\t" <s> (blank)
-  
+
   completion template : SemanticRule =
     "completion keyword" ":\n\t" <k> (blank)
-  
+
   completion template : SemanticRule =
     "completion trigger" ":\n\t" <regex> (blank)
-    
+
   completion template : SemanticRule =
   	"observer" ": " <s> (blank)
-  
+
   completion template : SemanticRule =
     "provider" ": " <provider.jar> (blank)
-  
+
   completion template : SemanticRule =
   	"builder" ": " <"caption"> " = " <s> (blank)
-  
+
   completion template : SemanticRule =
     "builder caption" ": " <"caption"> (blank)
-  
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
   	"unmanaged table" ": " <prefix> "*" (blank)
-  
+
   completion template : LanguageProperty =
   	"line comment" ": " <prefix> (blank)
-  
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
   	"block comment" ":\n\t" <prefix> " " <middle> " " <end> (blank)
-  
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
   	"fences" ":\n\t" <f> " " <g> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
   	"indent after" ":\n\t" <keyword> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "name" ":\n\t" <Name> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "url" ":\n\thttp://" <url> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "id" ":\n\t" <id> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "extends" ":\n\t" <Language> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "extensions" ":\n\t" <ext> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "start symbols" ":\n\t" <Start> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "disambiguator" ":\n\t" <s> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "description" ":\n\t" <description> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "table" ":\n\t" <table> (blank)
- 
-  completion template : LanguageProperty = 
+
+  completion template : LanguageProperty =
     "table provider" ":\n\t" <provider> (blank)
-  
-  completion template : SemanticRule = 
+
+  completion template : SemanticRule =
   	"reference" " _ : " <s> (blank)
-  
-  completion template : SemanticRule = 
+
+  completion template : SemanticRule =
     "occurrence" " _ : " <s> (blank)
-  
-  completion template : SemanticRule = 
+
+  completion template : SemanticRule =
     "hover" " _ : " <s> (blank)
 
-  completion template : SemanticRule = 
+  completion template : SemanticRule =
     "on save" ": " <s> (blank)
