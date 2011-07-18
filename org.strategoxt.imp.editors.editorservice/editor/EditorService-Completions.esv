@@ -67,6 +67,12 @@ completions
   completion template : SemanticRule =
     "builder caption" ": " <"caption"> (blank)
 
+  completion template : SemanticRule =
+  	"refactoring" " _ : " <"caption"> " = " <s> (blank)
+
+  completion template : SemanticRule =
+  	"pretty-print" ": "  <s> (blank)
+
   completion template : LanguageProperty =
   	"unmanaged table" ": " <prefix> "*" (blank)
 

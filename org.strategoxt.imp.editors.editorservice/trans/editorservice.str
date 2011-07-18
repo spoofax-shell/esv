@@ -19,7 +19,7 @@ rules
       <chdir> project-path;
       <record-all-sdfs> ".";
       error*   := <collect-all(constraint-error, conc)> ast;
-      warning* := <conc> (<collect-all(constraint-warning, conc)> ast, <warnings-refactoring> ast)
+      warning* := <collect-all(constraint-warning, conc)> ast
 
   generate-aterm:
     (selected, position, ast, path, project-path) -> (filename, selected)
@@ -144,43 +144,15 @@ rules
   constraint-warning:
     CompletionTrigger(".", _) -> $[Trigger is a regular expression that matches any character. Use \. instead]
 
-  warnings-refactoring=
-    ?ast;
-    wrns-pp-unspecified:=<warning-pptable-unspecified> ast;
-    wrns-src-property:=<collect-all(warning-source-property-missing)> ast;
-    wrns-unused-annotation:=<collect-all(warning-unused-anno); flatten-list> ast;
-    <concat>[wrns-pp-unspecified, wrns-src-property, wrns-unused-annotation]
+  constraint-warning:
+    Refactoring(_, _, _, annos) -> (err-anno, $[the '[<try(origin-text)> err-anno]' annotation is not used for refactorings])
+    where
+      [err-anno] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
 
-  warning-unused-anno=
-    ?Refactoring(_, _, _, annos);
-    <filter(
-      ?OpenEditor()<+
-      ?Persistent()<+
-      ?RealTime())
-    > annos;
-    map(!(<id>, $[the '[<origin-text>]' annotation is not used for refactorings]))
+  constraint-warning:
+    r@Refactoring(_, _, _, annos) -> (r, $['openeditor, persistent, realtime' annotations are not used for refactorings])
+    where
+      [_,_|_] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
 
-  warning-pptable-unspecified=
-    if not(oncetd(?PPTable(_))) then
-      collect-all(
-        warning-pp-table-missing
-      )
-    else
-      ![]
-    end
-
-  warning-pp-table-missing=
-    ?refactoring@Refactoring(_, _, _, _);
-    !(
-       refactoring,
-       $["pp-table : 'stratego-call'" is missing,
-       as a result the source code reconstruction may fail]
-     )
-
-  warning-source-property-missing=
-    ?refactoring@Refactoring(_, _, _, props);
-    <not(fetch(?Source()))> props;
-    !(
-       refactoring,
-       $["Layout deviations will occur for desugared constructs, (source) annotation is recommended"]
-     )
+  constraint-warning:
+	pp@PPTable(_) -> (pp, $['pp-table' property is deprecated, use "pretty-print : pp-mylang-string" instead])
