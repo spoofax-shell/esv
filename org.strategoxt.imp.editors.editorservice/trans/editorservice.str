@@ -145,14 +145,14 @@ rules
     CompletionTrigger(".", _) -> $[Trigger is a regular expression that matches any character. Use \. instead]
 
   constraint-warning:
-    Refactoring(_, _, _, annos) -> (err-anno, $[the '[<try(origin-text)> err-anno]' annotation is not used for refactorings])
+  	Refactoring(a, b, c, annos) -> <constraint-warning> Refactoring(a, b, c, annos, None()) 
+
+  constraint-warning:
+    Refactoring(_, _, _, annos, _) -> (err-anno, $[the '[<try(origin-text)> err-anno]' annotation is not used for refactorings])
     where
       [err-anno] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
 
   constraint-warning:
-    r@Refactoring(_, _, _, annos) -> (r, $['openeditor, persistent, realtime' annotations are not used for refactorings])
+    r@Refactoring(_, _, _, annos, _) -> (r, $['openeditor, persistent, realtime' annotations are not used for refactorings])
     where
       [_,_|_] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
-
-  constraint-warning:
-	pp@PPTable(_) -> (pp, $['pp-table' property is deprecated, use "pretty-print : pp-mylang-string" instead])
