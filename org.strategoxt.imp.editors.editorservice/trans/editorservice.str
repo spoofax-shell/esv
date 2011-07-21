@@ -14,12 +14,13 @@ imports
 rules
 
   editor-analyze:
-    (ast, path, project-path) -> (error*, warning*, [])
+    (ast, path, project-path) -> (error*, warning*, info*)
     with
       <chdir> project-path;
       <record-all-sdfs> ".";
       error*   := <collect-all(constraint-error, conc)> ast;
-      warning* := <collect-all(constraint-warning, conc)> ast
+      warning* := <collect-all(constraint-warning, conc)> ast;
+      info* := <collect-all(constraint-info, conc)> ast
 
   generate-aterm:
     (selected, position, ast, path, project-path) -> (filename, selected)
@@ -145,9 +146,6 @@ rules
     CompletionTrigger(".", _) -> $[Trigger is a regular expression that matches any character. Use \. instead]
 
   constraint-warning:
-  	Refactoring(a, b, c, annos) -> <constraint-warning> Refactoring(a, b, c, annos, None()) 
-
-  constraint-warning:
     Refactoring(_, _, _, annos, _) -> (err-anno, $[the '[<try(origin-text)> err-anno]' annotation is not used for refactorings])
     where
       [err-anno] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
@@ -156,3 +154,20 @@ rules
     r@Refactoring(_, _, _, annos, _) -> (r, $['openeditor, persistent, realtime' annotations are not used for refactorings])
     where
       [_,_|_] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
+
+  constraint-warning:
+  	uidefs -> (uidefs, $[A refactoring has one (or zero) input with multiple fields])
+  	where
+  	  filter(?UserInput(_)); ?[_,_|_]
+
+  constraint-warning:
+  	uidefs -> (uidefs, $[A refactoring has only one (or zero) shortcuts])
+  	where
+  	  filter(?KeyBinding(_)); ?[_,_|_]
+
+  constraint-info:
+  	kb@KeyBinding(_) -> (
+  		kb, 
+  		$[Explicit keybinding support is not yet implemented, 
+  		  Use the actionDefinitionId instead.
+  		  For example, 'shortcut: "org.eclipse.jdt.ui.edit.text.java.rename.element"'])
