@@ -129,3 +129,12 @@ completions
 
   completion template : SemanticRule =
     "on save" ": " <s> (blank)
+
+  completion template : LanguageProperty =
+    "unicode flatten" " : " <true:TrueOrFalse> (blank)
+
+  completion template : TrueOrFalse =
+    "true"
+
+  completion template : TrueOrFalse =
+    "false"
