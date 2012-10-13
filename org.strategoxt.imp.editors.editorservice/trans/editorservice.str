@@ -163,10 +163,10 @@ rules
   constraint-warning:
   	uidefs -> (uidefs, $[A refactoring has only one (or zero) shortcuts])
   	where
-  	  filter(?KeyBinding(_)); ?[_,_|_]
+  	  filter(?Shortcut(_)); ?[_,_|_]
 
   constraint-info:
-  	kb@KeyBinding(_) -> (
+  	kb@KeyCombination(_) -> (
   		kb, 
   		$[Explicit keybinding support is not yet implemented, 
   		  Use the actionDefinitionId instead.
