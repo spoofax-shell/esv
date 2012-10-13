@@ -18,6 +18,7 @@ rules
     with
       <chdir> project-path;
       <record-all-sdfs> ".";
+      <record-all-keybindings> ast;
       error*   := <collect-all(constraint-error, conc)> ast;
       warning* := <collect-all(constraint-warning, conc)> ast;
       info* := <collect-all(constraint-info, conc)> ast
@@ -38,6 +39,13 @@ rules
       lhs*      := <bagof-SortProductionLHS> sort;
       lhs'*     := <topdown(repeat(remove-completion-irrelevant))> lhs*;
       proposals := <make-set> <filter(to-completion-parts-top)> lhs'*
+
+  record-all-keybindings =
+  	alltd(record-keybinding)
+  
+  record-keybinding =
+  	?KeyBinding(keyCombi, binding);
+  	rules(KeyBindingDeclaration : keyCombi -> binding)
 
   record-all-sdfs =
     <readdir> ".";
@@ -141,7 +149,12 @@ rules
     SemanticProvider(x) -> (x, $[Must be a generated .ctree or .jar file])
     where
       not(<string-ends-with(|".jar") + string-ends-with(|".ctree")> x)
-
+ 
+  constraint-error:
+  	Shortcut(kc@KeyCombination(keycombination)) -> (kc, $[Must be declared as keybinding in keybindings section.])
+	where
+		<not(KeyBindingDeclaration)> kc
+	
   constraint-warning:
     CompletionTrigger(".", _) -> $[Trigger is a regular expression that matches any character. Use \. instead]
 
@@ -155,19 +168,28 @@ rules
     where
       [_,_|_] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
 
-  constraint-warning:
-  	uidefs -> (uidefs, $[A refactoring has one (or zero) input with multiple fields])
+  constraint-error:
+  	uidefs -> (uidefs, $[A refactoring can only have one (or zero) input with multiple fields])
   	where
   	  filter(?UserInput(_)); ?[_,_|_]
 
-  constraint-warning:
-  	uidefs -> (uidefs, $[A refactoring has only one (or zero) shortcuts])
+  constraint-error:
+  	uidefs -> (uidefs, $[A refactoring can only have one (or zero) shortcuts])
   	where
+  	  filter(?Shortcut(_)); ?[_,_|_]
+  
+  constraint-info = fail
+  
+/*  constraint-info:
+  	kb@KeyCombination(_) -> (
+=======
   	  filter(?Shortcut(_)); ?[_,_|_]
 
   constraint-info:
   	kb@KeyCombination(_) -> (
+>>>>>>> .r25502
   		kb, 
   		$[Explicit keybinding support is not yet implemented, 
   		  Use the actionDefinitionId instead.
   		  For example, 'shortcut: "org.eclipse.jdt.ui.edit.text.java.rename.element"'])
+*/
