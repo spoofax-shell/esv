@@ -34,6 +34,15 @@ rules
       proposals := <all-keys-SortDeclaration>
 
   editor-complete:
+    (KeyCombination(COMPLETION(_)), position, ast, path, project-path) -> proposals
+    where
+      proposals := <
+      	all-keys-KeyBindingDeclaration;
+      	make-set;
+      	map(origin-text)
+      >
+
+  editor-complete:
     (CompletionTemplateEx([Sort(sort)], COMPLETION(_), _, _), position, ast, path, project-path) -> proposals
     where
       lhs*      := <bagof-SortProductionLHS> sort;
