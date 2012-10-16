@@ -90,13 +90,13 @@ completions
   completion template : SemanticRule =
     "builder caption" ": " <"caption"> (blank)
 
-  completion template RefactoringRule: "refactoring" =
+  completion template SemanticRule: "refactoring" =
   	"refactoring " <Sort> " : " <"caption"> " = " <s> (blank)
 
   completion template SemanticRule: "refactoring (extended)" =
   	"refactoring " <Sort> " : " <"caption"> " = " <s> " " <annos> "\n\t"
-  	<shortcut>
-  	<user-input>
+  	<shortcut> "\n\t"
+  	<user-input> "\n\t"
   	(blank)
 
   completion template UIOption: 
