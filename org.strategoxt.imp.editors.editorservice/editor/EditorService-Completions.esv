@@ -44,24 +44,23 @@ completions
     "references" "\n\t" (blank)
     
   completion template : Section =
-    "keybindings" "\n\t" 
-    <key1> " + " <key2> " + " <key3> " = " <"action-definition-id">
+    "keybindings" "\n" 
     (blank)
     
   completion template KeyBinding: "keybinding" =
     <key1> " + " <key2> " + " <key3> " = " <"action-definition-id">
     (blank)
     
-//  completion template KeyCombination: "key combination" =
-//    <Key> "+" <Key>
+  completion template KeyCombination: "key combination" =
+    <Key> " + " <Key>
 
-//  completion keyword: "Shift"
+  completion template  Key: "Shift"
 
-//  completion template  Key: "Ctrl"
+  completion template  Key: "Ctrl"
 
-//  completion template  Key: "Alt"
+  completion template  Key: "Alt"
 
-//  completion template  Key: <A>
+  completion template  Key: "key" = <A>
 
   completion template : SemanticRule =
     "completion template" " " <Sort> " :\n\t" <"prefix"> " " <"completion"> (blank)
@@ -90,29 +89,29 @@ completions
   completion template : SemanticRule =
     "builder caption" ": " <"caption"> (blank)
 
-  completion template SemanticRule: "refactoring" =
+  completion template SemanticRule Refactoring: "refactoring" =
   	"refactoring " <Sort> " : " <"caption"> " = " <s> (blank)
 
-  completion template SemanticRule: "refactoring (extended)" =
+  completion template SemanticRule Refactoring: "refactoring (extended)" =
   	"refactoring " <Sort> " : " <"caption"> " = " <s> " " <annos> "\n\t"
   	<shortcut> "\n\t"
   	<user-input> "\n\t"
   	(blank)
 
-  completion template UIOption: 
+  completion template UIOption Shortcut: 
   	"shortcut" ": " <keys> "\n\t"
 
-  completion template UIOption: "user input" =
-  	"input" ": \n\t\t" <inputs> 
+  completion template UIOption UserInput: "user input" =
+  	"input" " \n\t" <inputs> 
 
   completion template InputField: "text input" =
-  	 "text: "  <"label"> " = " <"default"> "\n\t"
+  	 "text: "  <"label"> " = " "\"\"" "\n"
 
   completion template InputField: "identifier input" =
-  	 "identifier: "  <"label"> " = " <"default"> "\n\t"
+  	 "identifier: "  <"label"> " = " "\"\"" "\n"
 
   completion template InputField: "boolean input" =
-  	 "boolean: "  <"label"> " = " <"default"> "\n\t"
+  	 "boolean: "  <"label"> " = " "false" "\n"
 
   completion template BuilderOption*: "(cursor)"
   completion template BuilderOption*: "(meta)"
