@@ -23,10 +23,10 @@ strategies //ESV
   record-esv:
     filename -> filename
     where
-      <has-extension(|"es")> filename;
+      <has-extension(|"esv")> filename;
       <open-import(
       	abspath, 
-      	parse-esvlanguage-file, 
+      	parse-editorservice-file, 
       	alltd(record-keybinding); alltd(record-color-def)
      )> filename
 

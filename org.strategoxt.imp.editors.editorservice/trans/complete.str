@@ -42,7 +42,7 @@ strategies
       proposals := <
       	all-keys-KeyBindingDeclaration;
       	make-set;
-      	map(pp-esvlanguage-string)
+      	map(pp-editorservice-string)
       >
 
   editor-complete:
@@ -51,7 +51,7 @@ strategies
       proposals := <
       	all-keys-ColorDefDeclaration;
       	make-set;
-      	map(!(<pp-esvlanguage-string>, <ColorDefDeclaration; pp-esvlanguage-string>))
+      	map(!(<pp-editorservice-string>, <ColorDefDeclaration; pp-editorservice-string>))
       >
 
   editor-complete:
