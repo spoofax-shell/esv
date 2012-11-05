@@ -80,7 +80,9 @@ strategies //SDF
       !sort;
       try(?cf(<id>) + ?lex(<id>));
       repeat(?label(_, <id>));
-      (?sort(x) + ?parameterized-sort(x, _))
+      (?sort(x) + ?parameterized-sort(x, _));
+      <not(oncetd(?"recover" <+ ?"deprecated" <+ ?"completion" <+ ?"reject"))> attrs; //does not help?
+      <not(?[lit(artificial)]; <string-starts-with(|"|#")> artificial)> lhs 
     with
       rules(
         SortDeclaration   :  x -> x
