@@ -16,6 +16,11 @@ completions Semantic completion proposer
 
 completions Custom rules
 
+  completion template Module : "module" =
+    "module " (cursor) (blank) 
+  completion template Imports : "imports" =
+    "imports\n\t" (cursor) (blank)                               
+
   completion template Import* : "ReservedName" =
     <ModuleName:ModuleName>  "\n" (cursor) (blank)                       
 

@@ -18,7 +18,8 @@ strategies //ESV
       else
         try(record-esv)
       end
-    )
+    );
+    rules(ESVFiles : filename -> filename)
   
   record-esv:
     filename -> filename

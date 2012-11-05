@@ -10,6 +10,16 @@ imports
 strategies
 
   editor-complete:
+    (Module(COMPLETION(_),_,_), position, ast, path, project-path) -> proposals
+    where
+      proposals := [<base-filename; remove-extension> path]
+
+  editor-complete:
+    (Import(COMPLETION(_)), position, ast, path, project-path) -> proposals
+    where
+      proposals := <all-keys-ESVFiles>
+  
+  editor-complete:
     (Sort(COMPLETION(_)), position, ast, path, project-path) -> proposals
     where
       proposals := <get-all-sorts>
