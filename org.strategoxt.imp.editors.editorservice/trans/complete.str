@@ -20,20 +20,15 @@ strategies
       proposals := <get-all-sorts>
 
   editor-complete:
-    (Constructor(COMPLETION(_)), position, ast, path, project-path) -> ["_"|proposals]
+    (SortAndConstructor(Sort(srt),Constructor(COMPLETION(""))), position, ast, path, project-path) -> ["_"|proposals]
     where
       //Sort + constructor
-      <oncetd(?SortAndConstructor(Sort(srt), Constructor(COMPLETION(_))))> ast;
       proposals := <get-all-constructors(|srt)>
  
   editor-complete:
     (Constructor(COMPLETION(_)), position, ast, path, project-path) -> ["_"|proposals]
     where
       //Unknown Sort + constructor
-      <oncetd(
-      	?ConstructorOnly(Constructor(COMPLETION(_))) <+
-      	?NOCONTEXT(Constructor(COMPLETION(_)))
-      )> ast;
       proposals := <get-all-constructors>
       
   editor-complete:

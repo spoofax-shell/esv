@@ -5,7 +5,7 @@ imports EditorService-Completions.generated
 
 completions Semantic completion proposer
 
-  completion proposer: editor-complete
+  completion proposer Node.SortAndConstructor: editor-complete
     
   completion trigger: "\."
   completion trigger: ":"
