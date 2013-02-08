@@ -5,19 +5,35 @@ module editorservice
 // TODO: check if there is _any_ provider for observer etc.
 
 imports
-  libstratego-lib
+  libstratego-lib  
   libstratego-sglr
   libstratego-sdf
   lib/editor-common.generated
   include/EditorService
+  check
+  analyze
+  complete
 
 rules
+	
+  editor-resolve:
+  	(selected, position, ast, path, project-path) -> target
+  	where
+  	  <?KeyCombination(_)> selected;
+  	  target := <KeyBindingDeclaration; ?KeyBinding(<id>, _)> selected
+
+  editor-hover:
+  	(selected, position, ast, path, project-path) -> <try(origin-text)> target
+  	where
+  	  <?KeyCombination(_)> selected;
+  	  target := <KeyBindingDeclaration; ?KeyBinding(_, <id>)> selected
 
   editor-analyze:
-    (ast, path, project-path) -> (error*, warning*, info*)
+    (ast, path, project-path) -> (ast, error*, warning*, info*)
     with
       <chdir> project-path;
-      <record-all-sdfs> ".";
+      record-all-sdfs;
+      record-all-esvs;
       error*   := <collect-all(constraint-error, conc)> ast;
       warning* := <collect-all(constraint-warning, conc)> ast;
       info* := <collect-all(constraint-info, conc)> ast
@@ -27,147 +43,4 @@ rules
     where
       filename  := <guarantee-extension(|"aterm")> path
 
-  editor-complete:
-    (Sort(COMPLETION(_)), position, ast, path, project-path) -> proposals
-    where
-      proposals := <all-keys-SortDeclaration>
-
-  editor-complete:
-    (CompletionTemplateEx([Sort(sort)], COMPLETION(_), _, _), position, ast, path, project-path) -> proposals
-    where
-      lhs*      := <bagof-SortProductionLHS> sort;
-      lhs'*     := <topdown(repeat(remove-completion-irrelevant))> lhs*;
-      proposals := <make-set> <filter(to-completion-parts-top)> lhs'*
-
-  record-all-sdfs =
-    <readdir> ".";
-    list-loop(
-      if <isdir> <filemode> then
-        chdir;
-        record-all-sdfs;
-        <chdir> ".."
-      else
-        try(record-sdf)
-      end
-    )
-
-  record-sdf:
-    filename -> filename
-    where
-      <has-extension(|"sdf")> filename;
-      <open-import(abspath, parse-sdf-module-file, alltd(record-prod))> filename
-
-  record-sdf:
-    filename -> filename
-    where
-      <has-extension(|"def")> filename;
-      <open-import(abspath, parse-sdf-definition-file, alltd(record-prod))> filename
-
-  record-prod:
-    renamed-module(x, renamings(y)) -> <id>
-    where
-      let record-sort = \x -> x with rules(SortDeclaration : x -> x)\
-      in
-        <all(try(?symbol(_, sort(<id>)); record-sort))> y
-      end
-
-  record-prod:
-    prod @ prod(lhs, sort, attrs) -> <id>
-    where
-      !sort;
-      try(?cf(<id>) + ?lex(<id>));
-      repeat(?label(_, <id>));
-      (?sort(x) + ?parameterized-sort(x, _))
-    with
-      rules(
-        SortDeclaration   :  x -> x
-        SortProductionLHS :+ x -> lhs
-      )
-
-  to-completion-parts:
-    [lit(x) | tail] -> ["\"", lits', "\" " | tail']
-    where
-      lits  := <map(?lit(<id>))> <take-while(?lit(_))>;
-      lits' := <escape> <concat-strings> <separate-by(|" ")> lits;
-      tail' := <to-completion-parts> <drop-while(?lit(_))> tail
-
-  to-completion-parts-top:
-    [lit(first) | tail] -> $[[trigger'] [rest']]
-    where
-      trigger  := [lit(first) | <take-while(?lit(<is-alpha>))> tail];
-      trigger' := <to-completion-parts> trigger;
-      rest     := <drop-while(?lit(<is-alpha>))> tail;
-      rest'    := <to-completion-parts> <separate-by(|lit(" "))> rest
-
-  to-completion-parts:
-    [sort(x) | tail] -> ["<", x, "> " | <to-completion-parts> tail]
-
-  to-completion-parts:
-    [iter-star(sort(x)) | tail] -> ["<", x, "*> " | <to-completion-parts> tail]
-
-  to-completion-parts:
-    [iter-star-sep(sort(x), _) | tail] -> ["<", x, "*> " | <to-completion-parts> tail]
-
-  to-completion-parts:
-    [iter(sort(x)) | tail] -> ["<", x, "*> " | <to-completion-parts> tail]
-
-  to-completion-parts:
-    [iter-sep(sort(x), _) | tail] -> ["<", x, "*> " | <to-completion-parts> tail]
-
-  to-completion-parts:
-    [opt(sort(x)) | tail] -> ["<", x, "> " | <to-completion-parts> tail]
-
-  to-completion-parts:
-    [] -> []
-
-  remove-completion-irrelevant:
-    parameterized-sort(x, _) -> sort(x)
-
-  remove-completion-irrelevant:
-    cf(x) -> x
-
-  remove-completion-irrelevant:
-    lex(x) -> x
-
-  remove-completion-irrelevant:
-    opt(layout()) -> lit(" ")
-
-  constraint-error:
-    Sort(x) -> (x, $[Unknown sort [x]])
-    where
-      not(<SortDeclaration> x)
-
-  constraint-error:
-    SemanticProvider(x) -> (x, $[Must be a generated .ctree or .jar file])
-    where
-      not(<string-ends-with(|".jar") + string-ends-with(|".ctree")> x)
-
-  constraint-warning:
-    CompletionTrigger(".", _) -> $[Trigger is a regular expression that matches any character. Use \. instead]
-
-  constraint-warning:
-    Refactoring(_, _, _, annos, _) -> (err-anno, $[the '[<try(origin-text)> err-anno]' annotation is not used for refactorings])
-    where
-      [err-anno] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
-
-  constraint-warning:
-    r@Refactoring(_, _, _, annos, _) -> (r, $['openeditor, persistent, realtime' annotations are not used for refactorings])
-    where
-      [_,_|_] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
-
-  constraint-warning:
-  	uidefs -> (uidefs, $[A refactoring has one (or zero) input with multiple fields])
-  	where
-  	  filter(?UserInput(_)); ?[_,_|_]
-
-  constraint-warning:
-  	uidefs -> (uidefs, $[A refactoring has only one (or zero) shortcuts])
-  	where
-  	  filter(?KeyBinding(_)); ?[_,_|_]
-
-  constraint-info:
-  	kb@KeyBinding(_) -> (
-  		kb, 
-  		$[Explicit keybinding support is not yet implemented, 
-  		  Use the actionDefinitionId instead.
-  		  For example, 'shortcut: "org.eclipse.jdt.ui.edit.text.java.rename.element"'])
+  

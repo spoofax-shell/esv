@@ -2,139 +2,270 @@ module EditorService-Completions
 
 imports EditorService-Completions.generated
 
-completions
 
-  completion proposer:
-    editor-complete
+completions Semantic completion proposer
 
-  completion trigger:
-    "(completion\s*template|start\s*symbols)\s*:(\s+|\n)"
+  completion proposer Node.SortAndConstructor: editor-complete
+    
+  completion trigger: "\."
+  completion trigger: ":"
+  completion trigger: "="
+  completion trigger: "(completion\s*template|start\s*symbols)\s*:(\s+|\n)"
+  completion trigger: "(completion\s*template|start\s*symbols)\s*:\s*[^\s]+\s*=\s+"
 
-  completion trigger:
-    "(completion\s*template|start\s*symbols)\s*:\s*[^\s]+\s*=\s+"
 
-  completion template : Module =
-    "module " <Module>
+completions Custom rules
 
-  completion template : Section =
-    "imports" "\n\t" (blank)
+  completion template Module : "module" =
+    "module " (cursor) (blank) 
+  completion template Imports : "imports" =
+    "imports\n\t" (cursor) (blank)                               
 
-  completion template : Section =
-    "builders" "\n\t" (blank)
+  completion template Import* : "ReservedName" =
+    <ModuleName:ModuleName>  "\n" (cursor) (blank)                       
 
-  completion template : Section =
-    "colorer" "\n\t" (blank)
+  completion template StrategoCall : "StrategoId" =
+    <StrategoId:StrategoId>                                               
 
-  completion template : Section =
-    "folding" "\n\t" (blank)
+  completion template KeyCombination Key: "Shift" =
+    "Shift"                                     
 
-  completion template : Section =
-    "outliner" "\n\t" (blank)
+  completion template KeyCombination Key : "Alt" =
+    "Alt"                                  
 
-  completion template : Section =
-    "completions" "\n\t" (blank)
+  completion template KeyCombination Key : "Ctrl" =
+    "Ctrl"                                      
 
-  completion template : Section =
-    "language" "\n\t" (blank)
+  completion template KeyCombination Key : "[A-Z]" =
+    <A>
 
-  completion template : Section =
-    "references" "\n\t" (blank)
+  completion template KeyCombination : "Shift + <Keys>" =
+    "Shift" " + " <Key:KeyCombination>                                     
 
-  completion template : SemanticRule =
-    "completion template" " " <Sort> " :\n\t" <"prefix"> " " <"completion"> (blank)
+  completion template KeyCombination : "Alt + <Keys>" =
+    "Alt" " + " <Key:KeyCombination>                                  
 
-  completion template : SemanticRule =
-    "identifier lexical" ":\n\t" <regex> (blank)
+  completion template KeyCombination : "Ctrl + <Keys>" =
+    "Ctrl" " + " <Key:KeyCombination>                                      
 
-  completion template : SemanticRule =
-    "completion proposer" ":\n\t" <s> (blank)
+  completion template KeyCombination : "[A-Z] + <Keys>" =
+    <A> " + " <Key:KeyCombination>
 
-  completion template : SemanticRule =
-    "completion keyword" ":\n\t" <k> (blank)
+completions Generated from template definitions 
 
-  completion template : SemanticRule =
-    "completion trigger" ":\n\t" <regex> (blank)
+//(customization: Section -> Section*, ...)
 
-  completion template : SemanticRule =
-  	"observer" ": " <s> (blank)
-
-  completion template : SemanticRule =
-    "provider" ": " <provider.jar> (blank)
-
-  completion template : SemanticRule =
-  	"builder" ": " <"caption"> " = " <s> (blank)
-
-  completion template : SemanticRule =
-    "builder caption" ": " <"caption"> (blank)
-
-  completion template : SemanticRule =
-  	"refactoring" " _ : " <"caption"> " = " <s> (blank)
-
-  completion template : SemanticRule =
-  	"pretty-print" ": "  <s> (blank)
-
-  completion template : LanguageProperty =
-  	"unmanaged table" ": " <prefix> "*" (blank)
-
-  completion template : LanguageProperty =
-  	"line comment" ": " <prefix> (blank)
-
-  completion template : LanguageProperty =
-  	"block comment" ":\n\t" <prefix> " " <middle> " " <end> (blank)
-
-  completion template : LanguageProperty =
-  	"fences" ":\n\t" <f> " " <g> (blank)
-
-  completion template : LanguageProperty =
-  	"indent after" ":\n\t" <keyword> (blank)
-
-  completion template : LanguageProperty =
-    "name" ":\n\t" <Name> (blank)
-
-  completion template : LanguageProperty =
-    "url" ":\n\thttp://" <url> (blank)
-
-  completion template : LanguageProperty =
-    "id" ":\n\t" <id> (blank)
-
-  completion template : LanguageProperty =
-    "extends" ":\n\t" <Language> (blank)
-
-  completion template : LanguageProperty =
-    "extensions" ":\n\t" <ext> (blank)
-
-  completion template : LanguageProperty =
-    "start symbols" ":\n\t" <Start> (blank)
-
-  completion template : LanguageProperty =
-    "disambiguator" ":\n\t" <s> (blank)
-
-  completion template : LanguageProperty =
-    "description" ":\n\t" <description> (blank)
-
-  completion template : LanguageProperty =
-    "table" ":\n\t" <table> (blank)
-
-  completion template : LanguageProperty =
-    "table provider" ":\n\t" <provider> (blank)
-
-  completion template : SemanticRule =
-  	"reference" " _ : " <s> (blank)
-
-  completion template : SemanticRule =
-    "occurrence" " _ : " <s> (blank)
-
-  completion template : SemanticRule =
-    "hover" " _ : " <s> (blank)
-
-  completion template : SemanticRule =
-    "on save" ": " <s> (blank)
-
-  completion template : LanguageProperty =
-    "unicode flatten" " : " <true:TrueOrFalse> (blank)
-
-  completion template : TrueOrFalse =
-    "true"
-
-  completion template : TrueOrFalse =
-    "false"
+  completion template Section : "builders " =
+    "builders\n\n\t" (cursor) (blank)                                                    
+  completion template Section : "refactorings " =
+    "refactorings\n\n\t" (cursor) (blank)                                            
+  completion template Section : "colorer " =
+    "colorer\n\n\t" (cursor) (blank)                                                      
+  completion template Section : "folding " =
+    "folding\n\n\t" (cursor) (blank)                                                      
+  completion template Section : "outliner " =
+    "outliner\n\n\t" (cursor) (blank)                                                    
+  completion template Section : "completions " =
+    "completions\n\n\t" (cursor) (blank)                                              
+  completion template Section : "language " =
+    "language\n\n\t" (cursor) (blank)                                                    
+  completion template Section : "references " =
+    "references\n\n\t" (cursor) (blank)                                                
+  completion template Section : "keybindings " =
+    "keybindings\n\n\t" (cursor) (blank)                                              
+  completion template RefactoringRule* : "pretty-print : StrategoId" =
+    "pretty-print : " <StrategoId:StrategoCall> (blank)          
+  completion template RefactoringRule* : "parenthesize : StrategoId" =
+    "parenthesize : " <StrategoId:StrategoCall> (blank)          
+  completion template RefactoringRule* : "override reconstruction : StrategoId" =
+    "override reconstruction : " <StrategoId:StrategoCall> (blank)  
+  completion template RefactoringRule* : "resugar : StrategoId" =
+    "resugar : " <StrategoId:StrategoCall> (blank)                    
+  completion template RefactoringRule* : "refactoring : STRING = StrategoId " =
+    "refactoring " <:SemanticNode> " : " <STRING:String> " = " <StrategoId:StrategoCall> " " <:BuilderOption> " " <:UIOption> (blank)  
+  completion template UIOption* : "shortcut : Key" =
+    "shortcut : " <Key:KeyCombination> (blank)                                     
+  completion template UIOption* : "shortcut : STRING" =
+    "shortcut : " <STRING:InteractionId> (blank)                                
+  completion template UIOption* : "input InputField" =
+    "input " <InputField:InputField> (blank)                                     
+  completion template InputField* : "identifier : STRING = STRING" =
+    "identifier : " <STRING:String> " = " <STRING:String> (blank)  
+  completion template InputField* : "identifier : STRING" =
+    "identifier : " <STRING:String> (blank)  
+  completion template InputField* : "text : STRING = STRING" =
+    "text : " <STRING:String> " = " <STRING:String> (blank)              
+  completion template InputField* : "text : STRING" =
+    "text : " <STRING:String> (blank)  
+  completion template InputField* : "boolean : STRING" =
+    "boolean : " <STRING:String> (blank)                                       
+  completion template InputField* : "boolean : STRING = true" =
+    "boolean : " <STRING:String> " = " <true:BooleanValue> (blank)      
+  completion template BooleanValue : "true" =
+    "true"                                                                               
+  completion template BooleanValue : "false" =
+    "false"                                                                             
+  completion template KeyBinding* : "Key = STRING" =
+    <Key:KeyCombination> " = " <STRING:String> (blank)                             
+  completion template BuilderRule* : "observer : StrategoId " =
+    "observer : " <StrategoId:StrategoCall> " " <:ObserverOption> (blank)  
+  completion template BuilderRule* : "provider : STRING" =
+    "provider : " <STRING:PropertyValue> (blank)                             
+  completion template BuilderRule* : "on save : StrategoId " =
+    "on save : " <StrategoId:StrategoCall> " " <:OnSaveAnno> (blank)     
+  completion template BuilderRule* : "builder : STRING = StrategoId " =
+    "builder " <:SemanticNode> " : " <STRING:String> " = " <StrategoId:StrategoCall> " " <:BuilderOption> (blank)  
+  completion template BuilderRule* : "builder caption : STRING" =
+    "builder caption : " <STRING:PropertyValue> (blank)               
+  completion template ObserverOption* : "(multifile)" =
+    "(multifile)"                                                               
+  completion template BuilderOption* : "(openeditor)" =
+    "(openeditor)"                                                              
+  completion template BuilderOption* : "(realtime)" =
+    "(realtime)"                                                                  
+  completion template BuilderOption* : "(persistent)" =
+    "(persistent)"                                                              
+  completion template BuilderOption* : "(meta)" =
+    "(meta)"                                                                          
+  completion template BuilderOption* : "(cursor)" =
+    "(cursor)"                                                                      
+  completion template BuilderOption* : "(source)" =
+    "(source)"                                                                      
+  completion template CompletionRule* : "completion trigger : STRING " =
+    "completion trigger : " <STRING:PropertyValue> " " <:OptCompletionAnno> (blank)  
+  completion template CompletionRule* : "completion proposer : StrategoId" =
+    "completion proposer : " <StrategoId:StrategoCall> (blank)  
+  completion template CompletionRule* : "completion keyword : STRING " =
+    "completion keyword : " <STRING:PropertyValue> " " <:OptCompletionAnno> (blank)  
+  completion template CompletionRule* : "completion template : STRING " =
+    "completion template " <:Sort> " : " <:CompletionPrefix> "\n\t" <STRING:CompletionPart> " " <:CompletionAnno> (blank)  
+  completion template CompletionPart : "(cursor)" =
+    "(cursor)"                                                                     
+  completion template CompletionAnno* : "(disabled)" =
+    "(disabled)"                                                                 
+  completion template CompletionAnno* : "(blank)" =
+    "(blank)"                                                                       
+  completion template CompletionAnno* : "(linked)" =
+    "(linked)"                                                                     
+  completion template ReferenceRule* : "reference Id : StrategoId" =
+    "reference " <Id:SemanticNode> " : " <StrategoId:StrategoCall> (blank)  
+  completion template ReferenceRule* : "hover Id : StrategoId" =
+    "hover " <Id:SemanticNode> " : " <StrategoId:StrategoCall> (blank)  
+  completion template ReferenceRule* : "occurrence Id : StrategoId" =
+    "occurrence " <Id:SemanticNode> " : " <StrategoId:StrategoCall> (blank)  
+  completion template ColorRule* : "environment Id : Id" =
+    "environment " <Id:ColorNode> " : " <Id:Attribute> (blank)               
+  completion template ColorRule* : "Id : Id" =
+    <Id:ColorNode> " : " <Id:Attribute> (blank)                                          
+  completion template ColorRule* : "environment Id : STRING = Id" =
+    "environment " <Id:ColorNode> " : " <STRING:String> " = " <Id:Attribute> (blank)  
+  completion template ColorRule* : "Id : STRING = Id" =
+    <Id:ColorNode> " : " <STRING:String> " = " <Id:Attribute> (blank)           
+  completion template Attribute : "_ " =
+    <_:Color> " " <:MaybeColor> " " <:Font>                                                   
+  completion template ColorNode : "token Id" =
+    "token " <Id:Id>                                                                    
+  completion template TokenKindName : "identifier" =
+    "identifier"                                                                  
+  completion template TokenKindName : "number" =
+    "number"                                                                          
+  completion template TokenKindName : "layout" =
+    "layout"                                                                          
+  completion template TokenKindName : "string" =
+    "string"                                                                          
+  completion template TokenKindName : "keyword" =
+    "keyword"                                                                        
+  completion template TokenKindName : "operator" =
+    "operator"                                                                      
+  completion template TokenKindName : "var" =
+    "var"                                                                                
+  completion template TokenKindName : "error" =
+    "error"                                                                            
+  completion template TokenKindName : "unknown" =
+    "unknown"                                                                        
+  completion template Font : "bold" =
+    "bold"                                                                                       
+  completion template Font : "italic" =
+    "italic"                                                                                   
+  completion template Font : "bold italic" =
+    "bold italic"                                                                         
+  completion template Font : "italic bold" =
+    "italic bold"                                                                         
+  completion template Color : "_" =
+    "_"                                                                                            
+  completion template Color : "_ _ _" =
+    <_:Int> " " <_:Int> " " <_:Int>                                                
+  completion template ColorRule* : "Id = Id" =
+    <Id:AttributeId> " = " <Id:Attribute> (blank)                                        
+  completion template FoldingRule* : "Id " =
+    <Id:Node> " " <:FoldingAnno> (blank)                                                   
+  completion template FoldingRule* : "all Id " =
+    "all " <Id:Node> " " <:FoldingAnno> (blank)                                        
+  completion template FoldingAnno* : "(disabled)" =
+    "(disabled)"                                                                    
+  completion template FoldingAnno* : "(folded)" =
+    "(folded)"                                                                        
+  completion template StrategoCall : "id.StrategoId" =
+    "id." <StrategoId:StrategoId>                                               
+  completion template LanguageProperty* : "name: STRING" =
+    "name: " <STRING:PropertyValue> (blank)                                  
+  completion template LanguageProperty* : "id: STRING" =
+    "id: " <STRING:PropertyValue> (blank)                                      
+  completion template LanguageProperty* : "extensions: " =
+    "extensions: " <:PropertyValues> (blank)                                 
+  completion template LanguageProperty* : "description: STRING" =
+    "description: " <STRING:PropertyValue> (blank)                    
+  completion template LanguageProperty* : "table: STRING" =
+    "table: " <STRING:PropertyValue> (blank)                                
+  completion template LanguageProperty* : "table provider: StrategoId" =
+    "table provider: " <StrategoId:StrategoCall> (blank)       
+  completion template LanguageProperty* : "start symbols: " =
+    "start symbols: " <:Sort> (blank)                                     
+  completion template LanguageProperty* : "start symbols: " =
+    "start symbols: " <:PropertyValues> (blank)                           
+  completion template LanguageProperty* : "url: URL" =
+    "url: " <URL:URL> (blank)                                                    
+  completion template LanguageProperty* : "extends: " =
+    "extends: " <:PropertyValues> (blank)                                       
+  completion template LanguageProperty* : "aliases: " =
+    "aliases: " <:PropertyValues> (blank)                                       
+  completion template LanguageProperty* : "unmanaged table: Id*" =
+    "unmanaged table: " <Id:Id> "*" (blank)                          
+  completion template LanguageProperty* : "disambiguator: StrategoId" =
+    "disambiguator: " <StrategoId:StrategoCall> (blank)         
+  completion template LanguageProperty* : "unicode flatten: true" =
+    "unicode flatten: " <true:TrueOrFalse> (blank)                  
+  completion template LanguageProperty* : "line comment: STRING" =
+    "line comment: " <STRING:PropertyValue> (blank)                  
+  completion template LanguageProperty* : "block comment: STRING STRING" =
+    "block comment: " <STRING  STRING:BlockCommentDef> (blank)  
+  completion template LanguageProperty* : "fences: " =
+    "fences: " <:FenceDef> (blank)                                               
+  completion template LanguageProperty* : "indent after: " =
+    "indent after: " <:IndentDef> (blank)                                  
+  completion template LanguageProperty* : "identifier lexical: STRING" =
+    "identifier lexical: " <STRING:PropertyValue> (blank)      
+  completion template BlockCommentDef* : "STRING STRING STRING" =
+    <STRING:PropertyValue> " " <STRING:PropertyValue> " " <STRING:PropertyValue>  
+  completion template BlockCommentDef* : "STRING STRING" =
+    <STRING:PropertyValue> " " <:NoContinuation> " " <STRING:PropertyValue>  
+  completion template FenceDef* : "STRING STRING" =
+    <STRING:PropertyValue> " " <STRING:PropertyValue>                               
+  completion template TrueOrFalse : "true" =
+    "true"                                                                                
+  completion template TrueOrFalse : "false" =
+    "false"                                                                              
+  completion template Sort* : "Id *" =
+    <Id:Id> " *"                                                                                 
+  completion template Sort* : "Id._" =
+    <Id:Sort> "._"                                                                               
+  completion template Constructor* : "_.Id" =
+    "_." <Id:ConstructorId>                                                               
+  completion template Node* : "Id.Id" =
+    <Id:Sort> "." <Id:ConstructorId>                                                            
+  completion template Module : "module ReservedName " =
+    "module " <ReservedName:ModuleName> "\n\n" <:Imports> " " <:Section> (blank)
+  completion template Imports : "imports ReservedName" =
+    "imports\n\t" <ReservedName:Import> (blank)                               
+  completion template Import* : "ReservedName [ Id ]" =
+    <ReservedName:ModuleName> " [ " <Id:Id> " ]"                                

@@ -1,0 +1,71 @@
+module check
+
+imports
+  lib/editor-common.generated
+  include/EditorService
+  analyze
+
+strategies
+
+  constraint-error:
+    Sort(x) -> (x, $[Unknown sort [x]])
+    where
+      not(<SortDeclaration> x)
+
+  constraint-error:
+    Constructor(x) -> (x, $[Unknown constructor [x]])
+    where
+      not(get-all-constructors; fetch-elem(?x))
+
+  constraint-error:
+    SortAndConstructor(Sort(srt), Constructor(x)) -> (x, $[Unknown constructor [x] for sort [srt]])
+    where
+      not(get-all-constructors(|srt); fetch-elem(?x))
+      
+  constraint-error:
+    PlaceholderWithSort(_,x) -> (x, $[Unknown sort [x]])
+    where
+      not(<SortDeclaration> x)
+
+  constraint-error:
+    SemanticProvider(x) -> (x, $[Must be a generated .ctree or .jar file])
+    where
+      not(<string-ends-with(|".jar") + string-ends-with(|".ctree")> x)
+ 
+  constraint-error:
+  	Shortcut(kc@KeyCombination(keycombination)) -> (kc, $[Must be declared as keybinding in keybindings section.])
+	where
+		<not(KeyBindingDeclaration)> kc
+
+  constraint-error:
+    AttributeRef(x) -> (x, $[Unknown color reference [x]])
+    where
+      	not(<ColorDefDeclaration> x)
+
+
+	
+  constraint-warning:
+    CompletionTrigger(".", _) -> $[Trigger is a regular expression that matches any character. Use \. instead]
+
+  constraint-warning:
+    Refactoring(_, _, _, annos, _) -> (err-anno, $[the '[<origin-text <+ pp-editorservice-string> err-anno]' annotation is not used for refactorings])
+    where
+      [err-anno] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
+
+  constraint-warning:
+    r@Refactoring(_, _, _, annos, _) -> (r, $['openeditor, persistent, realtime' annotations are not used for refactorings])
+    where
+      [_,_|_] := <filter(?OpenEditor() <+ ?Persistent()<+?RealTime())> annos
+
+  constraint-error:
+  	uidefs -> (uidefs, $[A refactoring can only have one (or zero) input with multiple fields])
+  	where
+  	  filter(?UserInput(_)); ?[_,_|_]
+
+  constraint-error:
+  	uidefs -> (uidefs, $[A refactoring can only have one (or zero) shortcuts])
+  	where
+  	  filter(?Shortcut(_)); ?[_,_|_]
+  
+  constraint-info = fail
+  
