@@ -23,7 +23,8 @@
                         -la stratego-lib -la stratego-sglr -la stratego-gpp -la stratego-xtc -la stratego-aterm
                         -la stratego-sdf"/>
         
-        <property name="externaldef" location="../org.strategoxt.imp.generator/src/syntax/EditorService.def"/>
+        <property name="externaldef" 
+location="../org.strategoxt.imp.generator/dist/EditorService.def"/>
         <!-- External .def and .jar locations
         <property name="externaljar" value="../lib.jar"/>
         <property name="externaljarflags" value="-la org.lib"/>
