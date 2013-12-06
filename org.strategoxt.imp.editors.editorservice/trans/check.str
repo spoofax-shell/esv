@@ -73,13 +73,13 @@ strategies
 rules // deprecation
 
   constraint-warning:
-    b@Builders(_, _) -> (b, $[Deprecated. Builders have been replaced by menus and actions ('editor/YourLang-Menus.esv'). Furthermore, providers, the observer and the on-save builder are now part of the main language description ('editor/YourLang.main.esv').])
+    b@Builders(_, _) -> (b, $[DEPRECATED. Builders have been replaced by menus and actions. See the generated 'editor/YourLang-Menus.esv' file. Also, 'providers', the 'observer' and the 'on-save' rule should be moved to 'editor/YourLang.main.esv'.])
 	
   constraint-warning:
-    b@Builder(_, _, _) -> (b, $[Deprecated. Builders have been replaced by menus and actions. See the generated 'editor/YourLang-Menus.esv' file.])
+    b@Builder(_, _, _) -> (b, $[DEPRECATED. Builders have been replaced by menus and actions. See the generated 'editor/YourLang-Menus.esv' file.])
 
   constraint-warning:
-    builder -> (builder, $[Deprecated. Providers, the observer and the on-save builder are now part of the main language description. Fix: move the builder to 'editor/YourLang-Menus.esv'.])
+    builder -> (builder, $[DEPRECATED. Move this rule to 'editor/YourLang.main.esv'.])
     where
-      <?SemanticProviderDeprecated(_) + ?SemanticObserverDeprecated(_, _) + ?OnSaveDeprecated(_, _)> := builder
+      <?SemanticProviderDEPRECATED(_) + ?SemanticObserverDEPRECATED(_, _) + ?OnSaveDEPRECATED(_, _)> := builder
   
