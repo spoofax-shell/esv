@@ -63,8 +63,6 @@ completions Generated from template definitions
     "colorer\n\n\t" (cursor) (blank)                                                      
   completion template Section : "folding " =
     "folding\n\n\t" (cursor) (blank)                                                      
-  completion template Section : "outliner " =
-    "outliner\n\n\t" (cursor) (blank)                                                    
   completion template Section : "completions " =
     "completions\n\n\t" (cursor) (blank)                                              
   completion template Section : "language " =
