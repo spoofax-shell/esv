@@ -13,6 +13,7 @@ imports
   check
   analyze
   complete
+  editor/EditorService-Outliner
 
 rules
 	
