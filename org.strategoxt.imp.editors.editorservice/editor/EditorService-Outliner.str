@@ -1,0 +1,11 @@
+module editor/EditorService-Outliner
+
+imports
+  include/EditorService
+  lib/runtime/editor/outline-library
+  lib/runtime/editor/origins
+  editor/EditorService-Outliner.generated
+
+rules
+  
+  outline-expand-to-level = !3
