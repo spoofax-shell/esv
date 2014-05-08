@@ -7,11 +7,15 @@ imports
   lib/runtime/editor/origins
 
 rules
-  
-  outline = simple-label-outline(to-outline-label; try(un-double-quote))
+
+
+  editor-outline:
+  	(node, position, ast, path, project-path) -> outline
+  	where
+  		outline := <simple-label-outline(to-outline-label; try(un-double-quote))> ast
 
   // menus
   to-outline-label = ?Menus(_); !"menus"
-  to-outline-label = ?ToolbarMenu(Label(String(<id>)), _)
+  to-outline-label = ?ToolbarMenu(Label(String(<id>)), _, _)
   to-outline-label = ?Action(String(<id>), _, _)
-  to-outline-label = ?Submenu(String(<id>), _)
+  to-outline-label = ?Submenu(String(<id>), _, _)

@@ -2,5 +2,5 @@ module EditorService-Views
 
 views
   
-  outline view: outline
+  outline view: editor-outline
     expand to level: 3
