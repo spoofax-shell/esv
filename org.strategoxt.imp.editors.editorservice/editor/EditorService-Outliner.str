@@ -8,12 +8,6 @@ imports
 
 rules
 
-
-  editor-outline:
-  	(node, position, ast, path, project-path) -> outline
-  	where
-  		outline := <simple-label-outline(to-outline-label; try(un-double-quote))> ast
-
   // menus
   to-outline-label = ?Menus(_); !"menus"
   to-outline-label = ?ToolbarMenu(Label(String(<id>)), _, _)
