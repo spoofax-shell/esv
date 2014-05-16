@@ -2,6 +2,6 @@ module EditorService-Menus
 
 menus
   
-  menu: "Syntax"
+  menu: "Syntax" (openeditor) (realtime) (meta) 
     
-    action: "Show abstract syntax (for selection)" = generate-aterm (openeditor) (realtime) (meta) 
+    action: "Show abstract syntax (for selection)" = generate-aterm
