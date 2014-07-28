@@ -1,13 +1,13 @@
 module EditorService.main
 
 imports
-  EditorService-Builders
   EditorService-Colorer
+  EditorService-Completions
   EditorService-Folding
-  EditorService-Outliner
+  EditorService-Menus
   EditorService-References
   EditorService-Syntax
-  EditorService-Completions
+  EditorService-Views
 
 language
 
@@ -20,3 +20,7 @@ language
   extensions    : esv
   table         : include/EditorService.tbl
   start symbols : Module
+
+  provider      : include/editorservice.jar
+
+  observer      : editor-analyze

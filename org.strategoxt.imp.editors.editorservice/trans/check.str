@@ -69,3 +69,17 @@ strategies
   
   constraint-info = fail
   
+  
+rules // deprecation
+
+  constraint-warning:
+    b@Builders(_, _) -> (b, $[DEPRECATED. Builders have been replaced by menus and actions. See the generated 'editor/YourLang-Menus.esv' file. Also, 'providers', the 'observer' and the 'on-save' rule should be moved to 'editor/YourLang.main.esv'.])
+	
+  constraint-warning:
+    b@Builder(_, _, _) -> (b, $[DEPRECATED. Builders have been replaced by menus and actions. See the generated 'editor/YourLang-Menus.esv' file.])
+
+  constraint-warning:
+    builder -> (builder, $[DEPRECATED. Move this rule to 'editor/YourLang.main.esv'.])
+    where
+      <?SemanticProviderDeprecated(_) + ?SemanticObserverDeprecated(_, _) + ?OnSaveDeprecated(_, _)> := builder
+  

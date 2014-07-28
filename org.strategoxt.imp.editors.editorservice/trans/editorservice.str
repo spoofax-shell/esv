@@ -13,21 +13,28 @@ imports
   check
   analyze
   complete
+  editor/EditorService-Outliner
+  lib/runtime/editor/-
 
 rules
-	
+  
   editor-resolve:
-  	(selected, position, ast, path, project-path) -> target
-  	where
-  	  <?KeyCombination(_)> selected;
-  	  target := <KeyBindingDeclaration; ?KeyBinding(<id>, _)> selected
+    (selected, position, ast, path, project-path) -> target
+    where
+      <?KeyCombination(_)> selected;
+      target := <KeyBindingDeclaration; ?KeyBinding(<id>, _)> selected
 
   editor-hover:
-  	(selected, position, ast, path, project-path) -> <try(origin-text)> target
-  	where
-  	  <?KeyCombination(_)> selected;
-  	  target := <KeyBindingDeclaration; ?KeyBinding(_, <id>)> selected
-
+    (selected, position, ast, path, project-path) -> <try(origin-text)> target
+    where
+      <?KeyCombination(_)> selected;
+      target := <KeyBindingDeclaration; ?KeyBinding(_, <id>)> selected
+      
+  editor-outline:
+    (node, position, ast, path, project-path) -> outline
+    where
+      outline := <simple-label-outline(to-outline-label; try(un-double-quote))> ast
+      
   editor-analyze:
     (ast, path, project-path) -> (ast, error*, warning*, info*)
     with
