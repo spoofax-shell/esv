@@ -82,4 +82,7 @@ rules // deprecation
     builder -> (builder, $[DEPRECATED. Move this rule to 'editor/YourLang.main.esv'.])
     where
       <?SemanticProviderDeprecated(_) + ?SemanticObserverDeprecated(_, _) + ?OnSaveDeprecated(_, _)> := builder
-  
+
+  constraint-warning:
+    pp@PrettyPrint(_) -> (pp, $[DEPRECATED. No longer used.])
+      
