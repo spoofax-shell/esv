@@ -24,3 +24,5 @@ language
   provider      : include/editorservice.jar
 
   observer      : editor-analyze
+
+  on save       : pack-main-descriptor-file

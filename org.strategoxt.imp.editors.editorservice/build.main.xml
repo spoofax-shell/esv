@@ -31,12 +31,6 @@
                         -la stratego-lib -la stratego-sglr -la stratego-gpp -la stratego-xtc -la stratego-aterm
                         -la stratego-sdf" />
 
-	<property name="externaldef" location="../../spoofax/org.strategoxt.imp.generator/dist/EditorService.def" />
-	<!-- External .def and .jar locations
-        <property name="externaljar" value="../lib.jar"/>
-        <property name="externaljarflags" value="-la org.lib"/>
-        -->
-
 	<!-- Environment configuration for command-line builds -->
 	<condition property="build.strategoxt.sdf" value="${eclipse.spoofaximp.nativeprefix}" else="">
 		<isset property="eclipse.spoofaximp.nativeprefix" />
