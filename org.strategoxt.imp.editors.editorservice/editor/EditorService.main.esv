@@ -15,7 +15,7 @@ language
   description   : "sdf2imp-generated editor for the EditorService language"
   url           : http://strategoxt.org
   
-  id            : org.strategoxt.imp.editors.editorservice
+  id            : org.metaborg.meta.lang.esv
   
   extensions    : esv
   table         : include/EditorService.tbl

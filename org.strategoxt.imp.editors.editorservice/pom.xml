@@ -2,8 +2,9 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>org.strategoxt.imp.editors.editorservice</artifactId>
-	<packaging>eclipse-plugin</packaging>
+	<name>EditorService</name>
+	<artifactId>org.metaborg.meta.lang.esv</artifactId>
+	<packaging>spoofax-language</packaging>
 	<description>Spoofax meta-language for specifying language configuration and editor services</description>
 	<url>https://github.com/metaborg/esv</url>
 
@@ -13,6 +14,35 @@
 		<version>1.5.0-SNAPSHOT</version>
 		<relativePath>../../spoofax-deploy/org.metaborg.maven.parent.language</relativePath>
 	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.metaborg</groupId>
+				<artifactId>spoofax-maven-plugin</artifactId>
+				<extensions>true</extensions>
+   				<configuration>
+			   		<format>jar</format> 
+					<strategoArgs>
+						<arg>-la</arg><arg>stratego-lib</arg>
+						<arg>-la</arg><arg>stratego-sglr</arg>
+						<arg>-la</arg><arg>stratego-gpp</arg>
+						<arg>-la</arg><arg>stratego-xtc</arg>
+						<arg>-la</arg><arg>stratego-aterm</arg>
+						<arg>-la</arg><arg>stratego-sdf</arg>
+					</strategoArgs>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.metaborg</groupId>
+						<artifactId>org.metaborg.meta.lang.esv</artifactId>
+						<version>${metaborg-version}</version>
+						<type>spoofax-language</type>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
 
 	<developers>
 	</developers>
