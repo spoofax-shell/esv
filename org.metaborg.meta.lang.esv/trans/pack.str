@@ -10,8 +10,9 @@ strategies
   pack-main-descriptor-file: (_, _, esv, path, project-path) -> None()
   where
     name := <get-language-name> esv;
+    file-path := $[[project-path]/[<dirname> path]];
     filename := $[[project-path]/include/[name].packed.esv];
-    rules(IncludeDirectories := [<dirname> path, project-path]);
+    rules(IncludeDirectories := [file-path, project-path]);
     packed-esv := <create-packed-descriptor(<read-definitions> esv)> esv;
     <WriteToTextFile> (filename, packed-esv)
 
