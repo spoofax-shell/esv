@@ -46,4 +46,10 @@ strategies
 
   read-descriptor-file: name -> esv
   with
-    esv := <IncludeDirectories;getfirst(!$[[<id>]/[name].esv];file-exists);parse-file>
+    esv := <find-descriptor-file;parse-file>
+
+  find-descriptor-file: name -> filename
+  with
+    filename := <IncludeDirectories;getfirst(!$[[<id>]/[name].esv];file-exists)>
+  <+
+    <debug(!"Error: Cannot find ESV file ");fail> name
