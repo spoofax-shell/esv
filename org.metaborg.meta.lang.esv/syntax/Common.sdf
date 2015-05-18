@@ -18,7 +18,7 @@ exports
     BACKSLASH                      -> StringChar
     "\\"                           -> BACKSLASH
     
-    ~[\n\r]*                       -> SectionName
+    ~[\/\n\r]*                     -> SectionName
 
     [\t\ \n\r]               -> Ws
     "//" ~[\n]* ([\n] | Eof) -> ShortCom
@@ -35,7 +35,7 @@ exports
   
     Int         -/- [0-9]
     Id          -/- [a-zA-Z0-9\'\-\_]
-    SectionName -/- ~[\n\r]
+    SectionName -/- ~[\/\n\r]
     Asterisk    -/- [\/]
     BACKSLASH   -/- [\"]
     Eof         -/- ~[]

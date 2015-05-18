@@ -50,6 +50,8 @@ exports
     "unicode" "flatten" ":" TrueOrFalse          -> LanguageProperty {cons("FlattenUnicode")}
     "observer" ":" StrategoCall ObserverOption*  -> LanguageProperty {cons("SemanticObserver")}    
     "provider" ":" PropertyValue                 -> LanguageProperty {cons("SemanticProvider")}
+    PropertyValue "includes" ":" PropertyValues  -> LanguageProperty {cons("LanguageIncludes")}
+    PropertyValue "sources" ":" PropertyValues   -> LanguageProperty {cons("LanguageSources")}
     
     "(" "multifile" ")"                          -> ObserverOption {cons("MultiFile")}
     

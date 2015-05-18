@@ -46,6 +46,8 @@
    CompletionTrigger    -- R [ H [ KW["completion"] KW["trigger"] ] KW[":"] H [ _1 _2 ] ],
    HoverRule            -- R [ H [ KW["hover"]     _1 ] KW[":"] _2 ],
    OccurrenceRule       -- R [ H [ KW["occurrence"] _1 ] H [ KW[":"] _2 ] ],
+   LanguageIncludes     -- R [ _1 KW["includes"] KW[":"] _2 ],
+   LanguageSources      -- R [ _1 KW["sources"] KW[":"] _2 ],
    SemanticProvider     -- R [ H [ KW["provider"] ] KW[":"] _1 ],
    OnSave               -- R [ H [ KW["on"] KW["save"] ] KW[":"] _1 _2 ],
    Disambiguator        -- R [ H [ KW["disambiguator"] ] KW[":"] _1 ],
