@@ -8,13 +8,14 @@ imports
   libstratego-lib  
   libstratego-sglr
   libstratego-sdf
-  lib/editor-common.generated
+  editor-common.generated
   include/EditorService
   check
   analyze
   complete
+  pack
   editor/EditorService-Outliner
-  lib/runtime/editor/-
+  runtime/editor/-
 
 rules
   
