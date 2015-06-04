@@ -25,12 +25,12 @@ strategies
   create-packed-descriptor(definitions) = Module(!$[[<id>].packed],id,definitions)
 
 strategies
-	
+
   get-language-name = get-language-option(?LanguageName(<id>))
 
-  get-language-option(s): Module(_,_,[Language(_,option*)]) -> option
+  get-language-option(s): Module(_,_,definition*) -> option
   where
-    option := <getfirst(s)> option*
+    option := <filter(?Language(_,<id>));concat;getfirst(s)> definition*
     
 strategies
 
