@@ -36,6 +36,7 @@ exports
   
     "name"            ":" PropertyValue          -> LanguageProperty {cons("LanguageName")}
     "id"              ":" PropertyValue          -> LanguageProperty {cons("LanguageId")}
+    "version"         ":" PropertyValue          -> LanguageProperty {cons("LanguageVersion")}
     "extensions"      ":" PropertyValues         -> LanguageProperty {cons("Extensions")}
     "description"     ":" PropertyValue          -> LanguageProperty {cons("Description")}
     "table"           ":" PropertyValue          -> LanguageProperty {cons("Table")}
