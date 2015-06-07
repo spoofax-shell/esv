@@ -12,7 +12,6 @@ imports
 
 language
 
-  name          : EditorService
   description   : "sdf2imp-generated editor for the EditorService language"
   url           : http://strategoxt.org
   
