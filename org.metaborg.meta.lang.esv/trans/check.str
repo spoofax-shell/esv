@@ -1,7 +1,7 @@
 module check
 
 imports
-  lib/editor-common.generated
+  editor-common.generated
   include/EditorService
   analyze
 
