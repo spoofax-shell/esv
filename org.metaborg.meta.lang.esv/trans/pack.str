@@ -52,6 +52,6 @@ strategies
 
   find-descriptor-file: name -> file
   with
-    file := <resolve-in-path(|<editorservice-sources-and-includes>)> $[[name].esv]
+    file := <resolve-in-path(|<editorservice-source-and-include-locations>)> $[[name].esv]
   <+
     <debug(!"Error: Cannot find ESV module ");fail> name
