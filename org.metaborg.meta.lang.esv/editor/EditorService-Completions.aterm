@@ -1,0 +1,849 @@
+Module(
+  "EditorService-Completions"
+, Imports([Import("EditorService-Completions.generated")])
+, [ Completions(
+      "  Semantic completion proposer"
+    , [ CompletionProposer(
+          [SortAndConstructor(Sort("Node"), Constructor("SortAndConstructor"))]
+        , Strategy("editor-complete")
+        )
+      , CompletionTrigger(String("\"\\.\""), None())
+      , CompletionTrigger(String("\":\""), None())
+      , CompletionTrigger(String("\"=\""), None())
+      , CompletionTrigger(String("\"(completion\\s*template|start\\s*symbols)\\s*:(\\s+|\\n)\""), None())
+      , CompletionTrigger(String("\"(completion\\s*template|start\\s*symbols)\\s*:\\s*[^\\s]+\\s*=\\s+\""), None())
+      ]
+    )
+  , Completions(
+      " Custom rules"
+    , [ CompletionTemplateEx(
+          [Sort("Module")]
+        , CompletionPrefix(String("\"module\""))
+        , [String("\"module \""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Imports")]
+        , CompletionPrefix(String("\"imports\""))
+        , [String("\"imports\\n\\t\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("Import")]
+        , CompletionPrefix(String("\"ReservedName\""))
+        , [PlaceholderWithSort("<ModuleName:", "ModuleName"), String("\"\\n\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("StrategoCall")]
+        , CompletionPrefix(String("\"StrategoId\""))
+        , [PlaceholderWithSort("<StrategoId:", "StrategoId")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("KeyCombination"), Sort("Key")]
+        , CompletionPrefix(String("\"Shift\""))
+        , [String("\"Shift\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("KeyCombination"), Sort("Key")]
+        , CompletionPrefix(String("\"Alt\""))
+        , [String("\"Alt\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("KeyCombination"), Sort("Key")]
+        , CompletionPrefix(String("\"Ctrl\""))
+        , [String("\"Ctrl\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("KeyCombination"), Sort("Key")]
+        , CompletionPrefix(String("\"[A-Z]\""))
+        , [Placeholder("<A>")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("KeyCombination")]
+        , CompletionPrefix(String("\"Shift + <Keys>\""))
+        , [String("\"Shift\""), String("\" + \""), PlaceholderWithSort("<Key:", "KeyCombination")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("KeyCombination")]
+        , CompletionPrefix(String("\"Alt + <Keys>\""))
+        , [String("\"Alt\""), String("\" + \""), PlaceholderWithSort("<Key:", "KeyCombination")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("KeyCombination")]
+        , CompletionPrefix(String("\"Ctrl + <Keys>\""))
+        , [String("\"Ctrl\""), String("\" + \""), PlaceholderWithSort("<Key:", "KeyCombination")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("KeyCombination")]
+        , CompletionPrefix(String("\"[A-Z] + <Keys>\""))
+        , [Placeholder("<A>"), String("\" + \""), PlaceholderWithSort("<Key:", "KeyCombination")]
+        , []
+        )
+      ]
+    )
+  , Completions(
+      " Generated from template definitions "
+    , [ CompletionTemplateEx(
+          [Sort("Section")]
+        , CompletionPrefix(String("\"builders \""))
+        , [String("\"builders\\n\\n\\t\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Section")]
+        , CompletionPrefix(String("\"refactorings \""))
+        , [String("\"refactorings\\n\\n\\t\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Section")]
+        , CompletionPrefix(String("\"colorer \""))
+        , [String("\"colorer\\n\\n\\t\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Section")]
+        , CompletionPrefix(String("\"folding \""))
+        , [String("\"folding\\n\\n\\t\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Section")]
+        , CompletionPrefix(String("\"completions \""))
+        , [String("\"completions\\n\\n\\t\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Section")]
+        , CompletionPrefix(String("\"language \""))
+        , [String("\"language\\n\\n\\t\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Section")]
+        , CompletionPrefix(String("\"references \""))
+        , [String("\"references\\n\\n\\t\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Section")]
+        , CompletionPrefix(String("\"keybindings \""))
+        , [String("\"keybindings\\n\\n\\t\""), Cursor()]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("RefactoringRule")]
+        , CompletionPrefix(String("\"pretty-print : StrategoId\""))
+        , [String("\"pretty-print : \""), PlaceholderWithSort("<StrategoId:", "StrategoCall")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("RefactoringRule")]
+        , CompletionPrefix(String("\"parenthesize : StrategoId\""))
+        , [String("\"parenthesize : \""), PlaceholderWithSort("<StrategoId:", "StrategoCall")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("RefactoringRule")]
+        , CompletionPrefix(String("\"override reconstruction : StrategoId\""))
+        , [String("\"override reconstruction : \""), PlaceholderWithSort("<StrategoId:", "StrategoCall")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("RefactoringRule")]
+        , CompletionPrefix(String("\"resugar : StrategoId\""))
+        , [String("\"resugar : \""), PlaceholderWithSort("<StrategoId:", "StrategoCall")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("RefactoringRule")]
+        , CompletionPrefix(String("\"refactoring : STRING = StrategoId \""))
+        , [ String("\"refactoring \"")
+          , PlaceholderWithSort("<:", "SemanticNode")
+          , String("\" : \"")
+          , PlaceholderWithSort("<STRING:", "String")
+          , String("\" = \"")
+          , PlaceholderWithSort("<StrategoId:", "StrategoCall")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "BuilderOption")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "UIOption")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("UIOption")]
+        , CompletionPrefix(String("\"shortcut : Key\""))
+        , [String("\"shortcut : \""), PlaceholderWithSort("<Key:", "KeyCombination")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("UIOption")]
+        , CompletionPrefix(String("\"shortcut : STRING\""))
+        , [String("\"shortcut : \""), PlaceholderWithSort("<STRING:", "InteractionId")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("UIOption")]
+        , CompletionPrefix(String("\"input InputField\""))
+        , [String("\"input \""), PlaceholderWithSort("<InputField:", "InputField")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("InputField")]
+        , CompletionPrefix(String("\"identifier : STRING = STRING\""))
+        , [ String("\"identifier : \"")
+          , PlaceholderWithSort("<STRING:", "String")
+          , String("\" = \"")
+          , PlaceholderWithSort("<STRING:", "String")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("InputField")]
+        , CompletionPrefix(String("\"identifier : STRING\""))
+        , [String("\"identifier : \""), PlaceholderWithSort("<STRING:", "String")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("InputField")]
+        , CompletionPrefix(String("\"text : STRING = STRING\""))
+        , [ String("\"text : \"")
+          , PlaceholderWithSort("<STRING:", "String")
+          , String("\" = \"")
+          , PlaceholderWithSort("<STRING:", "String")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("InputField")]
+        , CompletionPrefix(String("\"text : STRING\""))
+        , [String("\"text : \""), PlaceholderWithSort("<STRING:", "String")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("InputField")]
+        , CompletionPrefix(String("\"boolean : STRING\""))
+        , [String("\"boolean : \""), PlaceholderWithSort("<STRING:", "String")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("InputField")]
+        , CompletionPrefix(String("\"boolean : STRING = true\""))
+        , [ String("\"boolean : \"")
+          , PlaceholderWithSort("<STRING:", "String")
+          , String("\" = \"")
+          , PlaceholderWithSort("<true:", "BooleanValue")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("BooleanValue")]
+        , CompletionPrefix(String("\"true\""))
+        , [String("\"true\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("BooleanValue")]
+        , CompletionPrefix(String("\"false\""))
+        , [String("\"false\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("KeyBinding")]
+        , CompletionPrefix(String("\"Key = STRING\""))
+        , [PlaceholderWithSort("<Key:", "KeyCombination"), String("\" = \""), PlaceholderWithSort("<STRING:", "String")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderRule")]
+        , CompletionPrefix(String("\"observer : StrategoId \""))
+        , [ String("\"observer : \"")
+          , PlaceholderWithSort("<StrategoId:", "StrategoCall")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "ObserverOption")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderRule")]
+        , CompletionPrefix(String("\"provider : STRING\""))
+        , [String("\"provider : \""), PlaceholderWithSort("<STRING:", "PropertyValue")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderRule")]
+        , CompletionPrefix(String("\"on save : StrategoId \""))
+        , [ String("\"on save : \"")
+          , PlaceholderWithSort("<StrategoId:", "StrategoCall")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "OnSaveAnno")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderRule")]
+        , CompletionPrefix(String("\"builder : STRING = StrategoId \""))
+        , [ String("\"builder \"")
+          , PlaceholderWithSort("<:", "SemanticNode")
+          , String("\" : \"")
+          , PlaceholderWithSort("<STRING:", "String")
+          , String("\" = \"")
+          , PlaceholderWithSort("<StrategoId:", "StrategoCall")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "BuilderOption")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderRule")]
+        , CompletionPrefix(String("\"builder caption : STRING\""))
+        , [String("\"builder caption : \""), PlaceholderWithSort("<STRING:", "PropertyValue")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("ObserverOption")]
+        , CompletionPrefix(String("\"(multifile)\""))
+        , [String("\"(multifile)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderOption")]
+        , CompletionPrefix(String("\"(openeditor)\""))
+        , [String("\"(openeditor)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderOption")]
+        , CompletionPrefix(String("\"(realtime)\""))
+        , [String("\"(realtime)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderOption")]
+        , CompletionPrefix(String("\"(persistent)\""))
+        , [String("\"(persistent)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderOption")]
+        , CompletionPrefix(String("\"(meta)\""))
+        , [String("\"(meta)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderOption")]
+        , CompletionPrefix(String("\"(cursor)\""))
+        , [String("\"(cursor)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("BuilderOption")]
+        , CompletionPrefix(String("\"(source)\""))
+        , [String("\"(source)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("CompletionRule")]
+        , CompletionPrefix(String("\"completion trigger : STRING \""))
+        , [ String("\"completion trigger : \"")
+          , PlaceholderWithSort("<STRING:", "PropertyValue")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "OptCompletionAnno")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("CompletionRule")]
+        , CompletionPrefix(String("\"completion proposer : StrategoId\""))
+        , [String("\"completion proposer : \""), PlaceholderWithSort("<StrategoId:", "StrategoCall")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("CompletionRule")]
+        , CompletionPrefix(String("\"completion keyword : STRING \""))
+        , [ String("\"completion keyword : \"")
+          , PlaceholderWithSort("<STRING:", "PropertyValue")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "OptCompletionAnno")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("CompletionRule")]
+        , CompletionPrefix(String("\"completion template : STRING \""))
+        , [ String("\"completion template \"")
+          , PlaceholderWithSort("<:", "Sort")
+          , String("\" : \"")
+          , PlaceholderWithSort("<:", "CompletionPrefix")
+          , String("\"\\n\\t\"")
+          , PlaceholderWithSort("<STRING:", "CompletionPart")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "CompletionAnno")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("CompletionPart")]
+        , CompletionPrefix(String("\"(cursor)\""))
+        , [String("\"(cursor)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("CompletionAnno")]
+        , CompletionPrefix(String("\"(disabled)\""))
+        , [String("\"(disabled)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("CompletionAnno")]
+        , CompletionPrefix(String("\"(blank)\""))
+        , [String("\"(blank)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("CompletionAnno")]
+        , CompletionPrefix(String("\"(linked)\""))
+        , [String("\"(linked)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("ReferenceRule")]
+        , CompletionPrefix(String("\"reference Id : StrategoId\""))
+        , [ String("\"reference \"")
+          , PlaceholderWithSort("<Id:", "SemanticNode")
+          , String("\" : \"")
+          , PlaceholderWithSort("<StrategoId:", "StrategoCall")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("ReferenceRule")]
+        , CompletionPrefix(String("\"hover Id : StrategoId\""))
+        , [ String("\"hover \"")
+          , PlaceholderWithSort("<Id:", "SemanticNode")
+          , String("\" : \"")
+          , PlaceholderWithSort("<StrategoId:", "StrategoCall")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("ReferenceRule")]
+        , CompletionPrefix(String("\"occurrence Id : StrategoId\""))
+        , [ String("\"occurrence \"")
+          , PlaceholderWithSort("<Id:", "SemanticNode")
+          , String("\" : \"")
+          , PlaceholderWithSort("<StrategoId:", "StrategoCall")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("ColorRule")]
+        , CompletionPrefix(String("\"environment Id : Id\""))
+        , [ String("\"environment \"")
+          , PlaceholderWithSort("<Id:", "ColorNode")
+          , String("\" : \"")
+          , PlaceholderWithSort("<Id:", "Attribute")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("ColorRule")]
+        , CompletionPrefix(String("\"Id : Id\""))
+        , [PlaceholderWithSort("<Id:", "ColorNode"), String("\" : \""), PlaceholderWithSort("<Id:", "Attribute")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("ColorRule")]
+        , CompletionPrefix(String("\"environment Id : STRING = Id\""))
+        , [ String("\"environment \"")
+          , PlaceholderWithSort("<Id:", "ColorNode")
+          , String("\" : \"")
+          , PlaceholderWithSort("<STRING:", "String")
+          , String("\" = \"")
+          , PlaceholderWithSort("<Id:", "Attribute")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("ColorRule")]
+        , CompletionPrefix(String("\"Id : STRING = Id\""))
+        , [ PlaceholderWithSort("<Id:", "ColorNode")
+          , String("\" : \"")
+          , PlaceholderWithSort("<STRING:", "String")
+          , String("\" = \"")
+          , PlaceholderWithSort("<Id:", "Attribute")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Attribute")]
+        , CompletionPrefix(String("\"_ \""))
+        , [ PlaceholderWithSort("<_:", "Color")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "MaybeColor")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "Font")
+          ]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("ColorNode")]
+        , CompletionPrefix(String("\"token Id\""))
+        , [String("\"token \""), PlaceholderWithSort("<Id:", "Id")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TokenKindName")]
+        , CompletionPrefix(String("\"identifier\""))
+        , [String("\"identifier\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TokenKindName")]
+        , CompletionPrefix(String("\"number\""))
+        , [String("\"number\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TokenKindName")]
+        , CompletionPrefix(String("\"layout\""))
+        , [String("\"layout\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TokenKindName")]
+        , CompletionPrefix(String("\"string\""))
+        , [String("\"string\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TokenKindName")]
+        , CompletionPrefix(String("\"keyword\""))
+        , [String("\"keyword\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TokenKindName")]
+        , CompletionPrefix(String("\"operator\""))
+        , [String("\"operator\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TokenKindName")]
+        , CompletionPrefix(String("\"var\""))
+        , [String("\"var\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TokenKindName")]
+        , CompletionPrefix(String("\"error\""))
+        , [String("\"error\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TokenKindName")]
+        , CompletionPrefix(String("\"unknown\""))
+        , [String("\"unknown\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("Font")]
+        , CompletionPrefix(String("\"bold\""))
+        , [String("\"bold\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("Font")]
+        , CompletionPrefix(String("\"italic\""))
+        , [String("\"italic\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("Font")]
+        , CompletionPrefix(String("\"bold italic\""))
+        , [String("\"bold italic\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("Font")]
+        , CompletionPrefix(String("\"italic bold\""))
+        , [String("\"italic bold\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("Color")]
+        , CompletionPrefix(String("\"_\""))
+        , [String("\"_\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("Color")]
+        , CompletionPrefix(String("\"_ _ _\""))
+        , [ PlaceholderWithSort("<_:", "Int")
+          , String("\" \"")
+          , PlaceholderWithSort("<_:", "Int")
+          , String("\" \"")
+          , PlaceholderWithSort("<_:", "Int")
+          ]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("ColorRule")]
+        , CompletionPrefix(String("\"Id = Id\""))
+        , [PlaceholderWithSort("<Id:", "AttributeId"), String("\" = \""), PlaceholderWithSort("<Id:", "Attribute")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("FoldingRule")]
+        , CompletionPrefix(String("\"Id \""))
+        , [PlaceholderWithSort("<Id:", "Node"), String("\" \""), PlaceholderWithSort("<:", "FoldingAnno")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("FoldingRule")]
+        , CompletionPrefix(String("\"all Id \""))
+        , [ String("\"all \"")
+          , PlaceholderWithSort("<Id:", "Node")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "FoldingAnno")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("FoldingAnno")]
+        , CompletionPrefix(String("\"(disabled)\""))
+        , [String("\"(disabled)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("FoldingAnno")]
+        , CompletionPrefix(String("\"(folded)\""))
+        , [String("\"(folded)\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("StrategoCall")]
+        , CompletionPrefix(String("\"id.StrategoId\""))
+        , [String("\"id.\""), PlaceholderWithSort("<StrategoId:", "StrategoId")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"name: STRING\""))
+        , [String("\"name: \""), PlaceholderWithSort("<STRING:", "PropertyValue")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"id: STRING\""))
+        , [String("\"id: \""), PlaceholderWithSort("<STRING:", "PropertyValue")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"extensions: \""))
+        , [String("\"extensions: \""), PlaceholderWithSort("<:", "PropertyValues")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"description: STRING\""))
+        , [String("\"description: \""), PlaceholderWithSort("<STRING:", "PropertyValue")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"table: STRING\""))
+        , [String("\"table: \""), PlaceholderWithSort("<STRING:", "PropertyValue")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"table provider: StrategoId\""))
+        , [String("\"table provider: \""), PlaceholderWithSort("<StrategoId:", "StrategoCall")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"start symbols: \""))
+        , [String("\"start symbols: \""), PlaceholderWithSort("<:", "Sort")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"start symbols: \""))
+        , [String("\"start symbols: \""), PlaceholderWithSort("<:", "PropertyValues")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"url: URL\""))
+        , [String("\"url: \""), PlaceholderWithSort("<URL:", "URL")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"extends: \""))
+        , [String("\"extends: \""), PlaceholderWithSort("<:", "PropertyValues")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"aliases: \""))
+        , [String("\"aliases: \""), PlaceholderWithSort("<:", "PropertyValues")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"unmanaged table: Id*\""))
+        , [String("\"unmanaged table: \""), PlaceholderWithSort("<Id:", "Id"), String("\"*\"")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"disambiguator: StrategoId\""))
+        , [String("\"disambiguator: \""), PlaceholderWithSort("<StrategoId:", "StrategoCall")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"unicode flatten: true\""))
+        , [String("\"unicode flatten: \""), PlaceholderWithSort("<true:", "TrueOrFalse")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"line comment: STRING\""))
+        , [String("\"line comment: \""), PlaceholderWithSort("<STRING:", "PropertyValue")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"block comment: STRING STRING\""))
+        , [String("\"block comment: \""), PlaceholderWithSort("<STRING  STRING:", "BlockCommentDef")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"fences: \""))
+        , [String("\"fences: \""), PlaceholderWithSort("<:", "FenceDef")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"indent after: \""))
+        , [String("\"indent after: \""), PlaceholderWithSort("<:", "IndentDef")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("LanguageProperty")]
+        , CompletionPrefix(String("\"identifier lexical: STRING\""))
+        , [String("\"identifier lexical: \""), PlaceholderWithSort("<STRING:", "PropertyValue")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("BlockCommentDef")]
+        , CompletionPrefix(String("\"STRING STRING STRING\""))
+        , [ PlaceholderWithSort("<STRING:", "PropertyValue")
+          , String("\" \"")
+          , PlaceholderWithSort("<STRING:", "PropertyValue")
+          , String("\" \"")
+          , PlaceholderWithSort("<STRING:", "PropertyValue")
+          ]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("BlockCommentDef")]
+        , CompletionPrefix(String("\"STRING STRING\""))
+        , [ PlaceholderWithSort("<STRING:", "PropertyValue")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "NoContinuation")
+          , String("\" \"")
+          , PlaceholderWithSort("<STRING:", "PropertyValue")
+          ]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("FenceDef")]
+        , CompletionPrefix(String("\"STRING STRING\""))
+        , [PlaceholderWithSort("<STRING:", "PropertyValue"), String("\" \""), PlaceholderWithSort("<STRING:", "PropertyValue")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TrueOrFalse")]
+        , CompletionPrefix(String("\"true\""))
+        , [String("\"true\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("TrueOrFalse")]
+        , CompletionPrefix(String("\"false\""))
+        , [String("\"false\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("Sort")]
+        , CompletionPrefix(String("\"Id *\""))
+        , [PlaceholderWithSort("<Id:", "Id"), String("\" *\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("Sort")]
+        , CompletionPrefix(String("\"Id._\""))
+        , [PlaceholderWithSort("<Id:", "Sort"), String("\"._\"")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("Constructor")]
+        , CompletionPrefix(String("\"_.Id\""))
+        , [String("\"_.\""), PlaceholderWithSort("<Id:", "ConstructorId")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [ListSort("Node")]
+        , CompletionPrefix(String("\"Id.Id\""))
+        , [PlaceholderWithSort("<Id:", "Sort"), String("\".\""), PlaceholderWithSort("<Id:", "ConstructorId")]
+        , []
+        )
+      , CompletionTemplateEx(
+          [Sort("Module")]
+        , CompletionPrefix(String("\"module ReservedName \""))
+        , [ String("\"module \"")
+          , PlaceholderWithSort("<ReservedName:", "ModuleName")
+          , String("\"\\n\\n\"")
+          , PlaceholderWithSort("<:", "Imports")
+          , String("\" \"")
+          , PlaceholderWithSort("<:", "Section")
+          ]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [Sort("Imports")]
+        , CompletionPrefix(String("\"imports ReservedName\""))
+        , [String("\"imports\\n\\t\""), PlaceholderWithSort("<ReservedName:", "Import")]
+        , [Blank()]
+        )
+      , CompletionTemplateEx(
+          [ListSort("Import")]
+        , CompletionPrefix(String("\"ReservedName [ Id ]\""))
+        , [ PlaceholderWithSort("<ReservedName:", "ModuleName")
+          , String("\" [ \"")
+          , PlaceholderWithSort("<Id:", "Id")
+          , String("\" ]\"")
+          ]
+        , []
+        )
+      ]
+    )
+  ]
+)

@@ -1,0 +1,85 @@
+module LanguageDescription
+
+imports 
+
+  Common	
+  SemanticServices
+
+sorts
+
+  LanguageProperty PropertyValue NoContinuation PropertyValues URL FenceDef BlockCommentDef IndentDef
+
+syntax
+
+  Section-CF.Language = "language" SectionName-LEX LAYOUT?-CF LanguageProperty*-CF 
+  ReservedName-CF = "language" 
+
+lexical syntax
+
+  PropertyValue = ~[\ \t\n\r\,\:\"\=]+ {avoid}
+  URL = ~[\ \t\n\r\,\/\:]+ "://" ~[\ \t\n\r]+ 
+
+lexical restrictions
+
+  PropertyValue -/- ~[\ \t\n\r\,\:\"\=]
+  URL -/- ~[\ \t\n\r]
+
+context-free syntax
+
+  PropertyValues.Values = <<{PropertyValue ","}*>> 
+  PropertyValue = String 
+  LanguageProperty.LanguageName = <name : <PropertyValue>> 
+  LanguageProperty.LanguageId = <id : <PropertyValue>> 
+  LanguageProperty.LanguageVersion = <version : <PropertyValue>> 
+  LanguageProperty.Extensions = <extensions : <PropertyValues>> 
+  LanguageProperty.Description = <description : <PropertyValue>> 
+  LanguageProperty.Table = <table : <PropertyValue>> 
+  LanguageProperty.TableProvider = <table provider : <StrategoCall>> 
+  LanguageProperty.StartSymbols = <start symbols : <Sort*>> 
+  LanguageProperty.StartSymbols = <start symbols : <PropertyValues>> {avoid}
+  LanguageProperty.URL = <url : <URL>> 
+  LanguageProperty.Extends = <extends : <PropertyValues>> 
+  LanguageProperty.Aliases = <aliases : <PropertyValues>> 
+  LanguageProperty.UnmanagedTablePrefix = <unmanaged table : <Id> *> 
+  LanguageProperty.Disambiguator = <disambiguator : <StrategoCall>> 
+  LanguageProperty.FlattenUnicode = <unicode flatten : <TrueOrFalse>> 
+  LanguageProperty.SemanticObserver = <observer : <StrategoCall> <ObserverOption*>> 
+  LanguageProperty.SemanticProvider = <provider : <PropertyValue>> 
+  LanguageProperty.LanguageIncludes = <<PropertyValue> includes : <PropertyValues>> 
+  LanguageProperty.LanguageSources = <<PropertyValue> sources : <PropertyValues>>
+  ContextType.None = <none>
+  ContextType.Legacy = <legacy>
+  ContextType.TaskEngine = <taskengine> 
+  LanguageProperty.Context = <context : <ContextType>>
+  ObserverOption.MultiFile = <( multifile )> 
+  LanguageProperty.OnSave = <on save : <StrategoCall> <OnSaveAnno>> 
+  LanguageProperty.LineCommentPrefix = <line comment : <PropertyValue>> 
+  LanguageProperty.BlockCommentDefs = <block comment : <BlockCommentDef>> 
+  LanguageProperty.FenceDefs = <fences : <FenceDef*>> 
+  LanguageProperty.IndentDefs = <indent after : <IndentDef*>> 
+  LanguageProperty.IdentifierLexical = <identifier lexical : <PropertyValue>> 
+  BlockCommentDef.BlockCommentDef = <<PropertyValue> <PropertyValue> <PropertyValue>> 
+  BlockCommentDef.BlockCommentDef = <<PropertyValue> <NoContinuation> <PropertyValue>> 
+  NoContinuation.NoContinuation =  
+  FenceDef.FenceDef = <<PropertyValue> <PropertyValue>> 
+  IndentDef.IndentDef = PropertyValue 
+  PropertyValue = <fences> {reject}
+  PropertyValue = <identifier> {reject}
+  PropertyValue = <indent> {reject}
+  PropertyValue = <fences> {reject}
+  PropertyValue = <line> {reject}
+  PropertyValue = <block> {reject}
+  Sort = <unmanaged> {reject}
+  TrueOrFalse.True = <true> 
+  TrueOrFalse.False = <false> 
+  LanguageProperty.JvmOpts = <jvm opts : <JvmOpt*>> 
+  JvmOpt.XssOpt = XssOpt 
+  JvmOpt.XmxOpt = XmxOpt 
+  JvmOpt.ServerOpt = ServerOpt 
+
+lexical syntax
+
+  XssOpt = "-Xss" Int DataUnit 
+  XmxOpt = "-Xmx" Int DataUnit 
+  ServerOpt = "-server" 
+  DataUnit = [gGmMkK] 
