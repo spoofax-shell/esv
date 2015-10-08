@@ -1,7 +1,5 @@
 module EditorService-Completions
 
-imports EditorService-Completions.generated
-
 
 completions Semantic completion proposer
 

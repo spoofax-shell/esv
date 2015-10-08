@@ -1,7 +1,7 @@
 module EditorService.main
 
 imports
-  EditorService.generated
+
   EditorService-Colorer
   EditorService-Completions
   EditorService-Folding
@@ -12,8 +12,7 @@ imports
 
 language
 
-  description   : "sdf2imp-generated editor for the EditorService language"
-  url           : http://strategoxt.org
+  name : EditorService
   
   extensions    : esv
   table         : include/EditorService.tbl
