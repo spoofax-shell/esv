@@ -8,26 +8,6 @@ imports
 strategies
 
   constraint-error:
-    Sort(x) -> (x, $[Unknown sort [x]])
-    where
-      not(<SortDeclaration> x)
-
-  constraint-error:
-    Constructor(x) -> (x, $[Unknown constructor [x]])
-    where
-      not(get-all-constructors; fetch-elem(?x))
-
-  constraint-error:
-    SortAndConstructor(Sort(srt), Constructor(x)) -> (x, $[Unknown constructor [x] for sort [srt]])
-    where
-      not(get-all-constructors(|srt); fetch-elem(?x))
-      
-  constraint-error:
-    PlaceholderWithSort(_,x) -> (x, $[Unknown sort [x]])
-    where
-      not(<SortDeclaration> x)
-
-  constraint-error:
     SemanticProvider(x) -> (x, $[Must be a generated .ctree or .jar file])
     where
       not(<string-ends-with(|".jar") + string-ends-with(|".ctree")> x)

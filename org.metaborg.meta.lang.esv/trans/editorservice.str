@@ -40,15 +40,12 @@ rules
     (ast, path, project-path) -> (ast, error*, warning*, info*)
     with
       <chdir> project-path;
-      record-all-sdfs;
       record-all-esvs;
       error*   := <collect-all(constraint-error, conc)> ast;
       warning* := <collect-all(constraint-warning, conc)> ast;
-      info* := <collect-all(constraint-info, conc)> ast
+      info*    := <collect-all(constraint-info, conc)> ast
 
   generate-aterm:
     (selected, position, ast, path, project-path) -> (filename, selected)
     where
       filename  := <guarantee-extension(|"aterm")> path
-
-  
