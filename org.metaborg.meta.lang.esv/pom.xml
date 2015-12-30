@@ -59,13 +59,6 @@
         <extensions>true</extensions>
         <configuration>
           <format>jar</format>
-          <strategoArgs combine.children="append">
-            <arg>-la</arg>
-            <arg>stratego-sdf</arg>
-          </strategoArgs>
-          <pardonedLanguages>
-            <language>EditorService</language>
-          </pardonedLanguages>
         </configuration>
       </plugin>
     </plugins>
