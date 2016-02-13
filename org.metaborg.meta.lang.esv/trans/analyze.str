@@ -1,0 +1,40 @@
+module analyze
+
+imports
+
+  libstratego-sglr
+  editor-common.generated
+  include/EditorService
+
+strategies //ESV
+
+  record-all-esvs =
+    <readdir> ".";
+    list-loop(
+      if <isdir> <filemode> then
+        chdir;
+        record-all-esvs;
+        <chdir> ".."
+      else
+        try(record-esv)
+      end
+    );
+    rules(ESVFiles : filename -> filename)
+  
+  record-esv:
+    filename -> filename
+    where
+      <has-extension(|"esv")> filename;
+      <open-import(
+      	abspath, 
+      	parse-editorservice-file, 
+      	alltd(record-keybinding); alltd(record-color-def)
+     )> filename
+
+  record-keybinding =
+  	?kb@KeyBinding(keyCombi, binding);
+  	rules(KeyBindingDeclaration : keyCombi -> kb)
+
+  record-color-def =
+  	?cdef@ColorDef(cname, attr);
+  	rules(ColorDefDeclaration : cname -> attr)

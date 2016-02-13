@@ -1,0 +1,58 @@
+module ColorerService
+
+imports 
+
+  Common
+
+sorts
+
+  ColorRule Font Color ColorNode MaybeColor NoColor TokenKindName AttributeId Attribute
+
+syntax
+
+  Section-CF.Colorer = "colorer" SectionName-LEX LAYOUT?-CF ColorRule*-CF 
+  ReservedName-CF = "colorer" 
+
+context-free syntax
+
+  ColorRule.ColorRuleAll = <environment <ColorNode> : <Attribute>> 
+  ColorRule.ColorRule = <<ColorNode> : <Attribute>> 
+  ColorRule.ColorRuleAllNamed = <environment <ColorNode> : <String> = <Attribute>> 
+  ColorRule.ColorRuleNamed = <<ColorNode> : <String> = <Attribute>> 
+  Attribute.Attribute = <<Color> <MaybeColor> <Font>> 
+  Attribute.AttributeRef = AttributeId 
+  ColorNode = Node 
+  ColorNode.Token = TokenKindName {prefer}
+  ColorNode.Literal = <token <Id>> 
+  TokenKindName.TK_IDENTIFIER = <identifier> 
+  TokenKindName.TK_NUMBER = <number> 
+  TokenKindName.TK_LAYOUT = <layout> 
+  TokenKindName.TK_STRING = <string> 
+  TokenKindName.TK_KEYWORD = <keyword> 
+  TokenKindName.TK_OPERATOR = <operator> 
+  TokenKindName.TK_VAR = <var> 
+  TokenKindName.TK_ERROR = <error> 
+  TokenKindName.TK_UNKNOWN = <unknown> 
+  Font.NORMAL =  
+  Font.BOLD = <bold> 
+  Font.ITALIC = <italic> 
+  Font.BOLD_ITALIC = <bold italic> 
+  Font.BOLD_ITALIC = <italic bold> 
+  Color.ColorDefault = <_> 
+  Color.ColorRGB = <<Int> <Int> <Int>> 
+  NoColor.NoColor =  
+  MaybeColor = Color 
+  MaybeColor = NoColor 
+  ColorRule.ColorDef = <<AttributeId> = <Attribute>> 
+  AttributeId = Id 
+  AttributeId = String 
+  AttributeId = <_> {reject}
+  AttributeId = Font {reject}
+  AttributeId = <environment> {reject}
+
+lexical restrictions
+
+  "environment"
+  "colorer"
+  "bold"
+  "italic" -/- [A-Za-z0-9\_]

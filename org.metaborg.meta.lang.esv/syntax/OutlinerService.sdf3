@@ -1,0 +1,18 @@
+module OutlinerService
+
+imports 
+
+  Common
+
+sorts
+
+  OutlineRule
+
+syntax
+
+  Section-CF.Outliner = "outliner" SectionName-LEX LAYOUT?-CF OutlineRule*-CF 
+  ReservedName-CF = "outliner" 
+
+context-free syntax
+
+  OutlineRule.OutlineRule = Node {prefer}

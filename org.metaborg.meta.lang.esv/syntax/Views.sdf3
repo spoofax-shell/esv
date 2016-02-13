@@ -1,0 +1,16 @@
+module Views
+
+imports
+
+  Common
+  SemanticServices
+
+context-free syntax
+
+  Section.Views = <views <View*>> 
+  View.OutlineView = <outline view : <StrategoCall> <OutlineOption*> <ExpandToLevel?>> 
+  OutlineOption.Source = <( source )> 
+  OutlineOption.OnSelection = <( onselection )> 
+  ExpandToLevel.ExpandToLevel = <expand to level : <Int>> 
+  View.PropertiesView = <properties view : <StrategoCall> <PropertiesOption*>> 
+  PropertiesOption.Source = <( source )> 

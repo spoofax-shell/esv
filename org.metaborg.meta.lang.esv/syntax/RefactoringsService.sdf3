@@ -1,0 +1,61 @@
+module RefactoringsService
+
+imports 
+
+  Common
+  SemanticServices	
+  BuildersService
+
+syntax
+
+  Section-CF.Refactorings = "refactorings" SectionName-LEX LAYOUT?-CF RefactoringRule*-CF 
+  ReservedName-CF = "refactorings" 
+  Section-CF.KeyBindings = "keybindings" SectionName-LEX LAYOUT?-CF KeyBinding*-CF 
+  ReservedName-CF = "keybindings" 
+
+context-free syntax
+
+  RefactoringRule.PrettyPrint = <pretty-print : <StrategoCall>> 
+  RefactoringRule.TextReconstruction = <text reconstruction : <StrategoCall>> 
+  RefactoringRule.Refactoring = <refactoring <SemanticNode*> : <String> = <StrategoCall> <BuilderOption*> <UIOption*>> 
+  UIOption.Shortcut = <shortcut : <KeyCombination>> 
+  UIOption.Shortcut = <shortcut : <InteractionId>> 
+  InteractionId.InteractionId = String 
+  UIOption.UserInput = <input <InputField+>> 
+  InputField = <identifier : <String>> {ast("IdInputField(<1>, \"\")")}
+  InputField.IdInputField = <identifier : <String> = <String>> 
+  InputField = <text : <String>> {ast("TextInputField(<1>, \"\")")}
+  InputField.TextInputField = <text : <String> = <String>> 
+  InputField = <boolean : <String>> {ast("BooleanInputField(<1>, FalseValue()")}
+  InputField.BooleanInputField = <boolean : <String> = <BooleanValue>> {prefer}
+  BooleanValue.TrueValue = <true> 
+  BooleanValue.FalseValue = <false> 
+  SemanticNode = <pp-table> {reject}
+  SemanticNode = <pretty-print> {reject}
+  SemanticNode = <refactoring> {reject}
+  StrategoCall = <refactorings> {reject}
+  StrategoCall = <refactoring> {reject}
+  StrategoCall = <pretty-print> {reject}
+  StrategoCall = <keybindings> {reject}
+
+context-free syntax
+
+  KeyBinding.KeyBinding = <<KeyCombination> = <String>> 
+  KeyCombination.KeyCombination = <<{Key "+"}+>> 
+
+lexical syntax
+
+  Key = "Shift" 
+  Key = "Alt" 
+  Key = "Ctrl" 
+  Key = [A-Z] 
+
+lexical restrictions
+
+  "refactoring"
+  "refactorings"
+  "keybindings"
+  "override"
+  "input"
+  "true"
+  "false" -/- [A-Za-z0-9\_]

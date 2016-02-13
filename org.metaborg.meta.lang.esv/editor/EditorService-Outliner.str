@@ -1,0 +1,15 @@
+module editor/EditorService-Outliner
+
+imports
+  
+  include/EditorService
+  runtime/editor/outline-library
+  runtime/editor/origins
+
+rules
+
+  // menus
+  to-outline-label = ?Menus(_); !"menus"
+  to-outline-label = ?ToolbarMenu(Label(String(<id>)), _, _)
+  to-outline-label = ?Action(String(<id>), _, _)
+  to-outline-label = ?Submenu(String(<id>), _, _)

@@ -1,0 +1,11 @@
+module EditorService-Colorer
+
+imports 
+
+  editor/Colorer.generated
+
+colorer Additional coloring
+  
+  SectionName: _ italic
+   
+  ColorName: black

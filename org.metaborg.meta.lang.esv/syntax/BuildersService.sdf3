@@ -1,0 +1,32 @@
+module BuildersService
+
+imports 
+
+  Common
+  SemanticServices
+  LanguageDescription
+
+syntax
+
+  Section-CF.Builders = "builders" SectionName-LEX LAYOUT?-CF BuilderRule*-CF 
+  ReservedName-CF = "builders" 
+
+context-free syntax
+
+  BuilderRule.SemanticObserverDeprecated = <observer : <StrategoCall> <ObserverOption*>> 
+  BuilderRule.SemanticProviderDeprecated = <provider : <PropertyValue>> 
+  BuilderRule.OnSaveDeprecated = <on save : <StrategoCall> <OnSaveAnno>> 
+  BuilderRule.Builder = <builder : <String> = <StrategoCall> <BuilderOption*>> 
+  BuilderRule.BuilderCaption = <builder caption : <PropertyValue>> 
+  BuilderOption.OpenEditor = <(openeditor)> 
+  BuilderOption.RealTime = <(realtime)> 
+  BuilderOption.Persistent = <(persistent)> 
+  BuilderOption.Meta = <(meta)> 
+  BuilderOption.Cursor = <(cursor)> 
+  BuilderOption.Source = <(source)> 
+
+lexical restrictions
+
+  "builders"
+  "builder"
+  "on" -/- [A-Za-z0-9\_]
