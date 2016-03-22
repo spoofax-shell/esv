@@ -1,4 +1,4 @@
-module EditorService-Colorer
+module Colorer
 
 imports 
 

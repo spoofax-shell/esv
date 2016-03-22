@@ -1,6 +1,0 @@
-module EditorService-References
-
-references
-
-   reference KeyCombination : editor-resolve
-   hover     KeyCombination : editor-hover

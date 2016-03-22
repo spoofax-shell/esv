@@ -3,8 +3,8 @@ module analyze
 imports
 
   libstratego-sglr
-  editor-common.generated
-  include/EditorService
+  stratego/metaborg
+  signatures/EditorService-sig
 
 strategies //ESV
 

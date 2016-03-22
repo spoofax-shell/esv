@@ -2,8 +2,8 @@ module pack
 
 imports
   
-  include/EditorService
-  editor-common.generated
+  signatures/EditorService-sig
+  stratego/metaborg
 
 strategies
 
@@ -13,8 +13,7 @@ strategies
       <is-main-descriptor-file> path
     with
       packed-esv := <create-packed-descriptor(<read-definitions> esv)> esv;
-      name := <get-language-name> packed-esv;
-      filename := $[[project-path]/include/[name].packed.esv];
+      filename := $[[project-path]/target/metaborg/editor.esv.af];
       <WriteToTextFile> (filename, packed-esv)
 
   pack-main-descriptor-file:
@@ -22,18 +21,9 @@ strategies
     where
       <not(is-main-descriptor-file)> path
 
-  is-main-descriptor-file = string-ends-with(|".main.esv")
+  is-main-descriptor-file = string-ends-with(|".main.esv") <+ string-ends-with(|"Main.esv") 
 
-  create-packed-descriptor(definitions) = Module(!$[[<id>].packed], id, definitions)
-
-strategies
-
-  get-language-name = get-language-option(?LanguageName(<id>))
-
-  get-language-option(s):
-    Module(_, _, definition*) -> option
-    where
-      option := <filter(?Language(_,<id>)); concat; getfirst(s)> definition*
+  create-packed-descriptor(definitions) = Module(!"editor", id, definitions)
     
 strategies
 

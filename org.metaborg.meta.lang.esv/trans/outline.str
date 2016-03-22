@@ -1,8 +1,8 @@
-module editor/EditorService-Outliner
+module outline
 
 imports
   
-  include/EditorService
+  signatures/EditorService-sig
   runtime/editor/outline-library
   runtime/editor/origins
 

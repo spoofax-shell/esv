@@ -2,24 +2,25 @@ module EditorService.main
 
 imports
 
-  EditorService-Colorer
-  EditorService-Completions
-  EditorService-Folding
-  EditorService-Menus
-  EditorService-References
-  EditorService-Syntax
-  EditorService-Views
+  Colorer
+  Menus
+  Syntax
+  Views
 
 language
 
   name : EditorService
   
-  extensions    : esv
-  table         : include/EditorService.tbl
+  extensions : esv
+  
+  table         : target/metaborg/sdf.tbl
   start symbols : Module
 
-  provider      : include/editorservice.jar
+  provider : target/metaborg/stratego.jar
+  observer : editor-analyze
+  on save  : pack-main-descriptor-file
 
-  observer      : editor-analyze
+references
 
-  on save       : pack-main-descriptor-file
+   reference KeyCombination : editor-resolve
+   hover     KeyCombination : editor-hover
