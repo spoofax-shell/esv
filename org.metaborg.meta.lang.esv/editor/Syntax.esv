@@ -1,6 +1,6 @@
-module EditorService-Syntax
+module Syntax
 
-language Syntax properties
+language
                   
   line comment  : "//"
   

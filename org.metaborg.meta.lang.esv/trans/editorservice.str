@@ -8,13 +8,12 @@ imports
   libstratego-lib  
   libstratego-sglr
   libstratego-sdf
-  editor-common.generated
-  include/EditorService
+  stratego/metaborg
+  signatures/EditorService-sig
   check
   analyze
-  complete
   pack
-  editor/EditorService-Outliner
+  outline
   runtime/editor/-
 
 rules

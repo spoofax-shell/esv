@@ -1,4 +1,4 @@
-module EditorService-Menus
+module Menus
 
 menus
   

@@ -1,9 +1,10 @@
 module check
 
 imports
-  editor-common.generated
-  include/EditorService
+  stratego/metaborg
+  signatures/EditorService-sig
   analyze
+  pp
 
 strategies
 
