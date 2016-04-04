@@ -21,7 +21,7 @@ strategies
     where
       <not(is-main-descriptor-file)> path
 
-  is-main-descriptor-file = string-ends-with(|".main.esv") <+ string-ends-with(|"Main.esv") 
+  is-main-descriptor-file = string-ends-with(|"main.esv") <+ string-ends-with(|"Main.esv") 
 
   create-packed-descriptor(definitions) = Module(!"editor", id, definitions)
     

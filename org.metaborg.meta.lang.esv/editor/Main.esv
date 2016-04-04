@@ -1,4 +1,4 @@
-module EditorService.main
+module Main
 
 imports
 
@@ -9,8 +9,6 @@ imports
 
 language
 
-  name : EditorService
-  
   extensions : esv
   
   table         : target/metaborg/sdf.tbl
