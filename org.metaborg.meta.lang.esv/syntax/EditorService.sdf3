@@ -1,0 +1,41 @@
+module EditorService
+
+imports 
+
+  Common	
+  LanguageDescription	
+  FoldingService	
+  OutlinerService	
+  ColorerService	
+  ReferencesService	
+  CompletionsService	
+  BuildersService	
+  RefactoringsService	
+  RecoveryRules	
+  MenusService	
+  Views
+
+context-free start-symbols
+
+  Module
+
+sorts
+
+  Module FileName ModuleName Imports Import
+
+lexical syntax
+
+  FileName = [a-zA-Z0-9\-\_\.]+ 
+  ModuleName = {FileName "/"}+ 
+
+lexical restrictions
+
+  FileName -/- [a-zA-Z0-9\-\_\.]
+
+context-free syntax
+
+  Module.Module = <module <ModuleName> <Imports> <Section*>> 
+  Imports.Imports = <imports <Import+>> 
+  Imports.NoImports =  
+  Import.Import = ModuleName 
+  Import.ImportRenamed = <<ModuleName> [ <Id> ]> 

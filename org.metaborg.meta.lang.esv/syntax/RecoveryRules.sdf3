@@ -1,0 +1,38 @@
+module RecoveryRules
+
+imports
+
+  Common
+  SemanticServices
+  CompletionsService
+
+context-free syntax
+
+  CompletionRule.CompletionTemplateEx = <completion template <Sort*> : <CompletionPrefix> <COMPLETIONPREFIX> <CompletionAnno*>> {completion}
+  KeyCombination.KeyCombination = COMPLETIONPREFIX {completion}
+
+syntax
+
+  Section-CF.Builders = "analysis" SectionName-LEX LAYOUT?-CF BuilderRule*-CF {deprecated("Use 'builders' instead")}
+  ReservedName-CF = "analysis" 
+
+context-free syntax
+
+  BuilderRule.SemanticProvider = <provider <PropertyValue>> {deprecated("Use 'provider :'")}
+  CompletionRule.IdentifierLexical = <completion lexical : <PropertyValue>> {deprecated("Use 'identifier lexical' instead")}
+  CompletionRule.CompletionTemplate = <completion template : <Id> <CompletionPart+> <OptCompletionAnno>> {avoid, deprecated("Add quotes to the starting literal")}
+  CompletionRule.CompletionTemplateWithSort = <completion template : <Sort> = <CompletionPart> <CompletionPart*> <OptCompletionAnno>> {avoid, deprecated("Move the sort before ':' and remove '='")}
+  CompletionAnno.Disable = <(disable)> {deprecated("Use (disabled) instead")}
+  FoldingAnno.Disable = <(disable)> {deprecated("Use (disabled) instead")}
+  RefactoringRule.PPTable = <pp-table : <StrategoCall>> {deprecated("use 'pretty-print' instead")}
+  ReferenceRule.ReferenceHoverRule = <reference <SemanticNode> : <StrategoCall> <StrategoCall>> {deprecated}
+  BuilderRule = RefactoringRule {deprecated("Refactoring rules must be defined in their own section in MyLang-Refactorings.esv")}
+
+lexical syntax
+
+  Section = "|#Section|" {completion}
+  ReservedName = "|#ReservedName|" {completion}
+  "provider" =  {recover, reject}
+  KeyCombination = "|#KeyCombination|" {completion}
+  Key = "|#Key|" {completion}
+  COMPLETIONPREFIX = "completion123" 

@@ -1,0 +1,62 @@
+module CompletionsService
+
+imports 
+
+  SemanticServices
+  Common
+
+sorts
+
+  CompletionPart CompletionAnno
+
+syntax
+
+  Section-CF.Completions = "completions" SectionName-LEX LAYOUT?-CF CompletionRule*-CF 
+  ReservedName-CF = "completions" 
+
+context-free syntax
+
+  CompletionRule.CompletionTrigger = <completion trigger : <PropertyValue> <OptCompletionAnno>> 
+  CompletionRule.CompletionProposer = <completion proposer <SemanticNode*> : <StrategoCall>> 
+  CompletionRule.CompletionKeyword = <completion keyword : <PropertyValue> <OptCompletionAnno>> 
+  CompletionRule.CompletionTemplateEx = <completion template <Sort*> : <CompletionPrefix> <CompletionPart+> <CompletionAnno*>> 
+  CompletionPrefix.NoCompletionPrefix =  
+  CompletionPrefix.CompletionPrefix = <<String> => 
+
+context-free syntax
+
+  StrategoCall = <completions> {reject}
+  StrategoCall = <completion> {reject}
+  StrategoCall = <identifier> {reject}
+  StrategoCall = <observer> {reject}
+  StrategoCall = <builder> {reject}
+  StrategoCall = <occurrence> {reject}
+  StrategoCall = ReservedName {reject}
+  CompletionPart = String 
+  CompletionPart.Placeholder = Placeholder 
+  CompletionPart.Cursor = <(cursor)> 
+  CompletionPart.PlaceholderWithSort = <<PlaceholderWithSortPrefix> <Id> \>> 
+  OptCompletionAnno.None =  
+  OptCompletionAnno = CompletionAnno 
+  CompletionAnno.Disable = <(disabled)> 
+  CompletionAnno.Blank = <(blank)> 
+  CompletionAnno.Linked = <(linked)> 
+  PropertyValue = <(blank)> {reject}
+  PropertyValue = <(disable)> {reject}
+  PropertyValue = <(linked)> {reject}
+  PropertyValue = <completion> {reject}
+  PropertyValue = <template> {reject}
+  PropertyValue = <trigger> {reject}
+  PropertyValue = <identifier> {reject}
+
+lexical syntax
+
+  PlaceholderWithSortPrefix = "<" PlaceholderChar* ":" 
+  Placeholder = "<" PlaceholderChar* ">" 
+  PlaceholderChar = ~[\:\>\n] 
+
+lexical restrictions
+
+  "completions"
+  "completion"
+  "template" -/- [A-Za-z0-9\_]

@@ -1,0 +1,24 @@
+module MenusService
+
+imports
+
+  Common
+  SemanticServices
+
+context-free syntax
+
+  Section.Menus = <menus <Menu*>> 
+  Menu.ToolbarMenu = <menu : <MenuID> <MenusOption*> <MenuContrib*>> 
+  MenuContrib.Action = <action : <String> = <StrategoCall> <MenusOption*>> 
+  MenuContrib.Submenu = <submenu : <String> <MenusOption*> <MenuContrib*> end> 
+  MenuContrib.Separator = <separator> 
+  MenuID.Label = String 
+  MenuID.Icon = <Icon ( <String> )> 
+  MenusOption.OpenEditor = <( openeditor )> 
+  MenusOption.RealTime = <( realtime )> 
+  MenusOption.Meta = <( meta )> 
+  MenusOption.Source = <( source )> 
+
+lexical syntax
+
+  ModuleName = "menus" {reject}

@@ -1,0 +1,24 @@
+module Main
+
+imports
+
+  Colorer
+  Menus
+  Syntax
+  Views
+
+language
+
+  extensions : esv
+  
+  table         : target/metaborg/sdf.tbl
+  start symbols : Module
+
+  provider : target/metaborg/stratego.jar
+  observer : editor-analyze
+  on save  : pack-main-descriptor-file
+
+references
+
+   reference KeyCombination : editor-resolve
+   hover     KeyCombination : editor-hover

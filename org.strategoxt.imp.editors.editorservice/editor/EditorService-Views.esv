@@ -1,6 +1,0 @@
-module EditorService-Views
-
-views
-  
-  outline view: editor-outline (source)
-    expand to level: 3

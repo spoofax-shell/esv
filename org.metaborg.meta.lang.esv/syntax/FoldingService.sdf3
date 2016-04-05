@@ -1,0 +1,27 @@
+module FoldingService
+
+imports
+
+  Common
+
+sorts
+
+  FoldingRule FoldingAnno
+
+syntax
+
+  Section-CF.Folding = "folding" SectionName-LEX LAYOUT?-CF FoldingRule*-CF 
+  ReservedName-CF = "folding" 
+
+context-free syntax
+
+  FoldingRule.FoldRule = <<Node> <FoldingAnno>> 
+  FoldingRule.FoldRuleAll = <all <Node> <FoldingAnno>> 
+  FoldingAnno.Disable = <(disabled)> 
+  FoldingAnno.Folded = <(folded)> 
+  FoldingAnno.None =  
+
+lexical restrictions
+
+  "all"
+  "folding" -/- [A-Za-z0-9\_]

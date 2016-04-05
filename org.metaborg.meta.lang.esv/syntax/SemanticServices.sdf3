@@ -1,0 +1,26 @@
+module SemanticServices
+
+imports 
+
+  Common	
+  LanguageDescription
+
+sorts
+
+  SemanticNode StrategoId StrategoCall OnSaveAnno
+
+lexical syntax
+
+  StrategoId = [a-zA-Z\_] [a-zA-Z0-9\'\-\_]* 
+  SemanticNode = "_" 
+
+lexical restrictions
+
+  StrategoId -/- [a-zA-Z0-9\'\-\_]
+
+context-free syntax
+
+  SemanticNode = Node 
+  StrategoCall.Strategy = StrategoId 
+  StrategoCall.Attribute = <id . <StrategoId>> 
+  OnSaveAnno.None =  

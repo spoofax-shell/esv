@@ -1,0 +1,23 @@
+module ReferencesService
+
+imports 
+
+  Common
+  SemanticServices
+
+syntax
+
+  Section-CF.References = "references" SectionName-LEX LAYOUT?-CF ReferenceRule*-CF 
+  ReservedName-CF = "references" 
+
+context-free syntax
+
+  ReferenceRule.ReferenceRule = <reference <SemanticNode> : <StrategoCall>> 
+  ReferenceRule.HoverRule = <hover <SemanticNode> : <StrategoCall>> 
+  ReferenceRule.OccurrenceRule = <occurrence <SemanticNode> : <StrategoCall>> 
+
+context-free syntax
+
+  StrategoCall = <references> {reject}
+  StrategoCall = <reference> {reject}
+  StrategoCall = <hover> {reject}

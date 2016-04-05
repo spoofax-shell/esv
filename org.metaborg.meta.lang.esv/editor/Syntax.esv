@@ -1,0 +1,13 @@
+module Syntax
+
+language
+                  
+  line comment  : "//"
+  
+  block comment : "/*" * "*/"
+
+  indent after:
+    ":" "=" ","
+    
+  fences        :
+    ( ) < > // annotations and placeholders
