@@ -9,6 +9,10 @@ dependencies:
   - org.metaborg:org.metaborg.meta.lang.template:${metaborgVersion}
   source:
   - org.metaborg:org.metaborg.meta.lib.analysis:${metaborgVersion}
+exports:
+- language: Stratego-Sugar
+  directory: src-gen
+  includes: "**/*.str"
 pardonedLanguages:
 - EditorService
 - Stratego-Sugar
