@@ -9,3 +9,8 @@ context-free syntax
 	Section.Shell = <shell <ShellProperty*>>
 	ShellProperty.EvaluationMethod = <evaluation method : <String>>
 	ShellProperty.ShellStartSymbol = <shell start symbol : <Sort>>
+	ShellProperty.CommandPrefix = <command prefix : <String>>
+
+	ShellProperty.CommandDefinition = <command : <String> <CommandProperty*>>
+	CommandProperty.CommandDescription = <description = <String>>
+	CommandProperty.CommandStrategy = <strategy = <StrategoCall>>
